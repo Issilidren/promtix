@@ -1,0 +1,23 @@
+{
+  "name": "promtix",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": ["client", "server"],
+  "scripts": {
+    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "dev:vercel": "vercel dev",
+    "build": "npm run build --workspace=client",
+    "start": "npm run start --workspace=server"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.0",
+    "@libsql/client": "^0.14.0",
+    "jsonwebtoken": "^9.0.0",
+    "pusher": "^5.2.0"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.0",
+    "vercel": "^37.0.0"
+  }
+}
