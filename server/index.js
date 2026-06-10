@@ -8,8 +8,10 @@ import { dirname, join } from 'path';
 import authRoutes from './routes/auth.js';
 import gameRoutes from './routes/game.js';
 import playerRoutes from './routes/players.js';
+import worldRoutes from './routes/world.js';
 import { initDB } from './db/index.js';
 import { initPvP } from './socket/pvpHandler.js';
+import { initCoop } from './socket/coopHandler.js';
 
 dotenv.config({ path: join(dirname(fileURLToPath(import.meta.url)), '../.env') });
 
@@ -32,6 +34,7 @@ app.use(express.json());
 app.use('/auth', authRoutes);
 app.use('/api/game', gameRoutes);
 app.use('/api/players', playerRoutes);
+app.use('/api/world', worldRoutes);
 
 app.get('/health', (_req, res) => res.json({ status: 'online', game: 'Promtix' }));
 
@@ -42,6 +45,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 initPvP(io);
+initCoop(io);
 
 const PORT = process.env.PORT || 3001;
 
