@@ -1,10 +1,12 @@
+const API_BASE = import.meta.env.VITE_API_URL || '';
+
 function getToken() {
   return localStorage.getItem('promtix_token');
 }
 
 async function apiFetch(path, options = {}) {
   const token = getToken();
-  const res = await fetch(`/api${path}`, {
+  const res = await fetch(`${API_BASE}/api${path}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
