@@ -1,5 +1,6 @@
 import { useState, useEffect, createContext, useContext } from 'react';
 
+const API_BASE = import.meta.env.VITE_API_URL || '';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -10,7 +11,7 @@ export function AuthProvider({ children }) {
     const token = localStorage.getItem('promtix_token');
     if (!token) { setLoading(false); return; }
 
-    fetch('/auth/me', { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.ok ? r.json() : null)
       .then(u => { setUser(u); setLoading(false); })
       .catch(() => { localStorage.removeItem('promtix_token'); setLoading(false); });
@@ -18,7 +19,7 @@ export function AuthProvider({ children }) {
 
   function login(token) {
     localStorage.setItem('promtix_token', token);
-    fetch('/auth/me', { headers: { Authorization: `Bearer ${token}` } })
+    fetch(`${API_BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.json())
       .then(setUser);
   }

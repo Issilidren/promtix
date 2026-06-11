@@ -11,8 +11,8 @@ async function apiFetch(path, options = {}) {
     headers: {
       'Content-Type': 'application/json',
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...options.headers
-    }
+      ...options.headers,
+    },
   });
 
   if (!res.ok) {
@@ -24,14 +24,31 @@ async function apiFetch(path, options = {}) {
 }
 
 export const api = {
-  getChallenges: () => apiFetch('/game/challenges'),
-  submitChallenge: (challengeId, prompt) =>
-    apiFetch('/game/submit', { method: 'POST', body: JSON.stringify({ challengeId, prompt }) }),
-  getLeaderboard: () => apiFetch('/players/leaderboard'),
-  getMe: () => apiFetch('/players/me'),
-  getPlayer: (username) => apiFetch(`/players/${username}`),
-  pvpQueue: () => apiFetch('/pvp/queue', { method: 'POST' }),
-  pvpLeave: () => apiFetch('/pvp/queue', { method: 'DELETE' }),
-  pvpSubmit: (matchId, prompt) =>
-    apiFetch('/pvp/submit', { method: 'POST', body: JSON.stringify({ matchId, prompt }) })
+  // ── Auth ────────────────────────────────────────────────────────
+  getMe:           ()             => apiFetch('/players/me'),
+  getLeaderboard:  ()             => apiFetch('/players/leaderboard'),
+  getPlayer:       (u)            => apiFetch(`/players/${u}`),
+
+  // ── Character ────────────────────────────────────────────────────
+  setCharacter:    (name, pf_class) =>
+    apiFetch('/players/me/character', { method: 'POST', body: JSON.stringify({ name, pf_class }) }),
+  getWorld:        ()             => apiFetch('/players/me/world'),
+
+  // ── Game ─────────────────────────────────────────────────────────
+  getChallenges:   ()             => apiFetch('/game/challenges'),
+  submitChallenge: (id, prompt)   =>
+    apiFetch('/game/submit', { method: 'POST', body: JSON.stringify({ challengeId: id, prompt }) }),
+
+  // ── PvP ──────────────────────────────────────────────────────────
+  pvpQueue:        ()             => apiFetch('/pvp/queue', { method: 'POST' }),
+  pvpLeave:        ()             => apiFetch('/pvp/queue', { method: 'DELETE' }),
+  pvpSubmit:       (matchId, p)   =>
+    apiFetch('/pvp/submit', { method: 'POST', body: JSON.stringify({ matchId, prompt: p }) }),
+
+  // ── World ────────────────────────────────────────────────────────
+  getWorldEvents:  ()             => apiFetch('/world/events'),
+  getNpcs:         ()             => apiFetch('/world/npcs'),
+  getShop:         ()             => apiFetch('/world/shop'),
+  buyItem:         (item_name, qty = 1) =>
+    apiFetch('/world/shop/buy', { method: 'POST', body: JSON.stringify({ item_name, qty }) }),
 };

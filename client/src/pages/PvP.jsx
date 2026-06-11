@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
 import { api } from '../utils/api.js';
 import { subscribeToPlayer } from '../utils/pusher.js';
+import Layout from '../components/Layout.jsx';
 
 export default function PvP() {
   const { user } = useAuth();
@@ -14,27 +14,19 @@ export default function PvP() {
 
   useEffect(() => {
     if (!user?.id) return;
-
     unsubRef.current = subscribeToPlayer(user.id, {
       'pvp:match_found': (data) => { setMatch(data); setStatus('matched'); setPrompt(''); },
-      'pvp:results': (data) => { setResults(data); setStatus('results'); }
+      'pvp:results': (data) => { setResults(data); setStatus('results'); },
     });
-
     return () => unsubRef.current?.();
   }, [user?.id]);
 
   async function joinQueue() {
     try {
       const data = await api.pvpQueue();
-      if (data.status === 'matched') {
-        setMatch(data);
-        setStatus('matched');
-      } else {
-        setStatus('waiting');
-      }
-    } catch (err) {
-      alert(err.message);
-    }
+      if (data.status === 'matched') { setMatch(data); setStatus('matched'); }
+      else setStatus('waiting');
+    } catch (err) { alert(err.message); }
   }
 
   async function leaveQueue() {
@@ -53,117 +45,136 @@ export default function PvP() {
     }
   }
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      <header className="border-b border-slate-800 px-6 py-4 flex items-center justify-between">
-        <Link to="/dashboard" className="text-slate-400 hover:text-white text-sm">← Dashboard</Link>
-        <h1 className="font-bold">PvP Arena</h1>
-        <div className="w-20" />
-      </header>
+  function reset() { setStatus('idle'); setMatch(null); setResults(null); setPrompt(''); }
 
-      <main className="max-w-2xl mx-auto px-6 py-10">
+  return (
+    <Layout>
+      <div className="max-w-2xl mx-auto px-4 md:px-6 py-8">
+        <div className="mb-6">
+          <div className="text-[10px] font-mono text-game-muted uppercase tracking-widest mb-1">Mode</div>
+          <h1 className="text-xl font-black text-white">PvP Arena</h1>
+        </div>
+
+        {/* IDLE */}
         {status === 'idle' && (
-          <div className="text-center space-y-6 py-10">
-            <div className="text-6xl">⚔️</div>
-            <h2 className="text-2xl font-bold">Ready to battle?</h2>
-            <p className="text-slate-400 max-w-sm mx-auto">
+          <div className="text-center space-y-6 py-12 slide-up">
+            <div className="text-5xl">⚔</div>
+            <h2 className="text-2xl font-bold text-white">Ready to battle?</h2>
+            <p className="text-slate-400 max-w-sm mx-auto text-sm">
               You and a cohort member get the same challenge simultaneously. Best prompt wins.
             </p>
             <button
               onClick={joinQueue}
-              className="bg-purple-500 hover:bg-purple-400 text-white font-bold px-10 py-4 rounded-xl transition-colors text-lg"
+              className="bg-neon-pink text-white font-bold px-10 py-4 rounded-xl transition-all hover:brightness-110 shadow-neon-pink text-sm"
             >
-              Find Opponent
+              Find Opponent →
             </button>
           </div>
         )}
 
+        {/* WAITING */}
         {status === 'waiting' && (
-          <div className="text-center space-y-6 py-10">
-            <div className="text-5xl animate-pulse">🔍</div>
-            <h2 className="text-xl font-bold">Searching for opponent...</h2>
-            <p className="text-slate-400">Waiting for another Caster to enter the Arena.</p>
-            <button onClick={leaveQueue} className="text-slate-500 hover:text-white text-sm transition-colors underline">
-              Leave queue
+          <div className="text-center space-y-6 py-12 slide-up">
+            <div className="text-4xl animate-pulse">◈</div>
+            <h2 className="text-lg font-bold text-white">Scanning for opponents...</h2>
+            <p className="text-game-muted text-sm font-mono">
+              &gt; Waiting for another Caster to enter the Arena.
+            </p>
+            <button
+              onClick={leaveQueue}
+              className="text-game-muted hover:text-slate-400 text-xs font-mono transition-colors underline"
+            >
+              leave queue
             </button>
           </div>
         )}
 
+        {/* MATCHED */}
         {status === 'matched' && match && (
-          <div className="space-y-5">
-            <div className="bg-purple-950 border border-purple-700 rounded-xl p-4 text-center">
-              <p className="text-purple-300 font-bold text-lg">Match Found ⚔️</p>
-              <p className="text-purple-400 text-sm">Cast your best prompt before your opponent does</p>
+          <div className="space-y-4 slide-up">
+            <div className="bg-neon-pink/5 border border-neon-pink/30 rounded-xl p-4 text-center">
+              <p className="neon-pink font-bold">Match Found ⚔</p>
+              <p className="text-slate-400 text-sm mt-1">Cast your best prompt before your opponent does</p>
             </div>
 
-            <div className="bg-slate-900 border border-slate-700 rounded-xl p-5">
-              <h3 className="font-bold text-lg mb-2">{match.challenge.title}</h3>
+            <div className="circuit-corner bg-game-panel border border-game-border rounded-xl p-5">
+              <h3 className="font-bold text-lg text-white mb-1">{match.challenge.title}</h3>
               <p className="text-slate-300 text-sm mb-3">{match.challenge.description}</p>
-              <span className="text-xs text-slate-500">Budget: {match.challenge.token_budget} tokens</span>
+              <span className="text-xs text-game-muted font-mono">Budget: {match.challenge.token_budget} tokens</span>
             </div>
 
             <div>
-              <label className="text-sm text-slate-400 mb-2 block">Your Prompt</label>
+              <label className="text-xs text-game-muted font-mono mb-2 block uppercase tracking-widest">
+                &gt; Your Prompt
+              </label>
               <textarea
                 value={prompt}
                 onChange={e => setPrompt(e.target.value)}
                 onKeyDown={e => { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) submitPrompt(); }}
                 placeholder="Cast your spell... (Ctrl+Enter to submit)"
                 rows={7}
-                className="w-full bg-slate-900 border border-slate-700 focus:border-purple-500 rounded-xl p-4 text-white placeholder-slate-600 resize-none outline-none font-mono text-sm"
+                className="w-full bg-game-card border border-game-border focus:border-neon-pink outline-none rounded-xl p-4 text-white placeholder-game-muted font-mono text-sm transition-colors"
               />
             </div>
 
             <button
               onClick={submitPrompt}
               disabled={!prompt.trim()}
-              className="w-full bg-purple-500 hover:bg-purple-400 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl transition-colors"
+              className="w-full bg-neon-pink text-white font-bold py-3 rounded-xl hover:brightness-110 transition-all shadow-neon-pink disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none text-sm"
             >
               Submit Prompt →
             </button>
           </div>
         )}
 
+        {/* SUBMITTING */}
         {status === 'submitting' && (
           <div className="text-center space-y-4 py-20">
-            <div className="text-5xl animate-pulse">⚡</div>
-            <p className="text-slate-300 font-bold">Prompt submitted!</p>
-            <p className="text-slate-400 text-sm">Waiting for opponent... results incoming via Pusher</p>
+            <div className="text-4xl neon-pink animate-pulse">⚡</div>
+            <p className="text-white font-bold">Prompt submitted!</p>
+            <p className="text-game-muted text-sm font-mono">&gt; Waiting for opponent...</p>
           </div>
         )}
 
+        {/* RESULTS */}
         {status === 'results' && results && (
-          <div className="space-y-4">
-            <div className={`rounded-2xl p-6 text-center border ${results.won ? 'bg-cyan-950 border-cyan-700' : 'bg-slate-900 border-slate-700'}`}>
-              <div className="text-5xl mb-2">{results.won ? '🏆' : '💀'}</div>
-              <h2 className="text-2xl font-black mb-1">{results.won ? 'Victory!' : 'Defeated'}</h2>
+          <div className="space-y-4 slide-up">
+            <div className={`rounded-xl p-6 text-center border ${
+              results.won
+                ? 'bg-neon-cyan/5 border-neon-cyan/30'
+                : 'bg-game-panel border-game-border'
+            }`}>
+              <div className="text-5xl mb-2">{results.won ? '◆' : '○'}</div>
+              <h2 className={`text-2xl font-black mb-1 ${results.won ? 'neon-cyan' : 'text-slate-400'}`}>
+                {results.won ? 'Victory!' : 'Defeated'}
+              </h2>
               <p className="text-slate-400 text-sm">
-                Your score: <span className="text-white font-bold">{results.yourScore}</span>
+                You: <span className="text-white font-bold">{results.yourScore}</span>
                 {' · '}
                 Opponent: <span className="text-white font-bold">{results.opponentScore}</span>
               </p>
-              <p className="text-cyan-400 font-bold mt-2">+{results.xpEarned} XP</p>
+              <p className="neon-cyan font-bold mt-2">+{results.xpEarned} XP</p>
             </div>
 
-            <div className="bg-cyan-950 border border-cyan-800 rounded-xl p-4">
-              <p className="text-xs text-cyan-400 mb-1">Feedback</p>
+            <div className="bg-neon-cyan/5 border border-neon-cyan/20 rounded-lg p-3">
+              <p className="text-[10px] neon-cyan font-mono mb-1 uppercase tracking-widest">Feedback</p>
               <p className="text-slate-200 text-sm">{results.feedback}</p>
             </div>
 
-            <div className="bg-purple-950 border border-purple-800 rounded-xl p-4">
-              <p className="text-xs text-purple-400 mb-1">Pro Tip</p>
+            <div className="bg-neon-purple/5 border border-neon-purple/20 rounded-lg p-3">
+              <p className="text-[10px] text-purple-400 font-mono mb-1 uppercase tracking-widest">Pro Tip</p>
               <p className="text-slate-200 text-sm">{results.tip}</p>
             </div>
 
             <button
-              onClick={() => { setStatus('idle'); setMatch(null); setResults(null); setPrompt(''); }}
-              className="w-full bg-purple-500 hover:bg-purple-400 text-white font-bold py-3 rounded-xl transition-colors"
+              onClick={reset}
+              className="w-full bg-neon-pink text-white font-bold py-3 rounded-xl hover:brightness-110 transition-all shadow-neon-pink text-sm"
             >
-              Play Again
+              Play Again →
             </button>
           </div>
         )}
-      </main>
-    </div>
+      </div>
+    </Layout>
   );
 }

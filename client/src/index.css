@@ -2,6 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0f172a; }
-::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 2px; }
+/* ── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #05050f; }
+::-webkit-scrollbar-thumb { background: #1e1e40; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,229,255,0.3); }
+
+/* ── Base ────────────────────────────────────────────────────────────────── */
+body { background: #05050f; }
+
+/* ── Neon text glow ─────────────────────────────────────────────────────── */
+.neon-cyan {
+  color: #00e5ff;
+  text-shadow: 0 0 8px rgba(0,229,255,0.8), 0 0 20px rgba(0,229,255,0.35);
+}
+.neon-pink {
+  color: #e040fb;
+  text-shadow: 0 0 8px rgba(224,64,251,0.8), 0 0 20px rgba(224,64,251,0.35);
+}
+.neon-gold {
+  color: #fbbf24;
+  text-shadow: 0 0 8px rgba(251,191,36,0.6);
+}
+
+/* ── Neon border glow ────────────────────────────────────────────────────── */
+.cyber-cyan {
+  border-color: #00e5ff !important;
+  box-shadow: 0 0 10px rgba(0,229,255,0.2), inset 0 0 8px rgba(0,229,255,0.04);
+}
+.cyber-pink {
+  border-color: #e040fb !important;
+  box-shadow: 0 0 10px rgba(224,64,251,0.2), inset 0 0 8px rgba(224,64,251,0.04);
+}
+
+/* ── Circuit corner ornament ─────────────────────────────────────────────── */
+.circuit-corner { position: relative; }
+.circuit-corner::before,
+.circuit-corner::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0.5;
+}
+.circuit-corner::before { top: 0; left: 0; border-top: 1px solid #00e5ff; border-left: 1px solid #00e5ff; }
+.circuit-corner::after  { bottom: 0; right: 0; border-bottom: 1px solid #00e5ff; border-right: 1px solid #00e5ff; }
+
+/* ── Progress bars ────────────────────────────────────────────────────────── */
+.bar-xp  { background: linear-gradient(90deg, #00e5ff, #7c3aed); }
+.bar-hp  { background: linear-gradient(90deg, #22c55e, #16a34a); }
+.bar-mp  { background: linear-gradient(90deg, #7c3aed, #a78bfa); }
+.bar-pink { background: linear-gradient(90deg, #e040fb, #7c3aed); }
+
+/* ── Rarity colors ───────────────────────────────────────────────────────── */
+.rarity-common   { color: #94a3b8; }
+.rarity-uncommon { color: #4ade80; }
+.rarity-rare     { color: #60a5fa; }
+.rarity-epic     { color: #a78bfa; }
+.rarity-legendary{ color: #fbbf24; }
+
+/* ── Animations ──────────────────────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 5px rgba(0,229,255,0.3); }
+  50%       { box-shadow: 0 0 20px rgba(0,229,255,0.7), 0 0 40px rgba(0,229,255,0.2); }
+}
+.animate-glow { animation: pulse-glow 2.5s ease-in-out infinite; }
+
+@keyframes scan {
+  0%   { background-position: 0 -100vh; }
+  100% { background-position: 0 100vh; }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.slide-up { animation: slide-up 0.35s ease-out forwards; }
+
+@keyframes flicker {
+  0%, 93%, 100% { opacity: 1; }
+  94%            { opacity: 0.85; }
+  97%            { opacity: 0.95; }
+}
+.flicker { animation: flicker 5s ease-in-out infinite; }
+
+/* ── Textarea reset ───────────────────────────────────────────────────────── */
+textarea { resize: none; }
