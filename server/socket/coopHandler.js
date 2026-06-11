@@ -1,8 +1,8 @@
-import jwt from 'jsonwebtoken';
+import { supabaseAdmin } from '../lib/supabase.js';
 import { getChallenges } from '../game/challenges.js';
 import { runChallenge, judgeResponse } from '../ai/claude.js';
 import { calculateXP } from '../game/scoring.js';
-import { getDB } from '../db/index.js';
+import { getDB, getOrCreatePlayer } from '../db/index.js';
 
 const COOP_SHARED_UNLOCK_LEVEL = 10;
 
@@ -12,15 +12,19 @@ const activeMatches = new Map();
 export function initCoop(io) {
   const coopNs = io.of('/coop');
 
-  coopNs.use((socket, next) => {
+  coopNs.use(async (socket, next) => {
     const token = socket.handshake.auth.token;
     if (!token) return next(new Error('Auth required'));
-    try {
-      socket.user = jwt.verify(token, process.env.JWT_SECRET);
-      next();
-    } catch {
-      next(new Error('Invalid token'));
-    }
+    const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+    if (error || !user) return next(new Error('Invalid token'));
+    const player = getOrCreatePlayer({
+      supabase_id: user.id,
+      username: user.user_metadata?.user_name || user.email,
+      avatar_url: user.user_metadata?.avatar_url,
+      display_name: user.user_metadata?.full_name || user.user_metadata?.user_name,
+    });
+    socket.user = { ...user, id: player.id };
+    next();
   });
 
   coopNs.on('connection', (socket) => {

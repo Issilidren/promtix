@@ -163,29 +163,7 @@ CREATE TABLE shop_inventory (
   last_restocked TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Enable Row Level Security
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
-ALTER TABLE player_profiles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE characters ENABLE ROW LEVEL SECURITY;
-ALTER TABLE inventory ENABLE ROW LEVEL SECURITY;
-ALTER TABLE battles ENABLE ROW LEVEL SECURITY;
-ALTER TABLE challenge_attempts ENABLE ROW LEVEL SECURITY;
-
--- RLS Policies (Users can only see/edit their own data)
-CREATE POLICY "Users can view own profile" ON player_profiles
-  FOR SELECT USING (auth.uid() = user_id OR true); -- Public profiles
-
-CREATE POLICY "Users can update own profile" ON player_profiles
-  FOR UPDATE USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can view own characters" ON characters
-  FOR SELECT USING (auth.uid() = user_id OR true); -- Public characters
-
-CREATE POLICY "Users can manage own characters" ON characters
-  FOR INSERT, UPDATE, DELETE USING (auth.uid() = user_id);
-
-CREATE POLICY "Users can view own inventory" ON inventory
-  FOR SELECT USING (auth.uid() = (SELECT user_id FROM characters WHERE id = inventory.character_id));
+-- RLS disabled for now — policies will be added once app is wired up
 
 -- Indexes for performance
 CREATE INDEX idx_characters_user_id ON characters(user_id);

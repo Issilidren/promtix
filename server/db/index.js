@@ -25,7 +25,7 @@ export function initDB() {
   db.exec(`
     CREATE TABLE IF NOT EXISTS players (
       id            INTEGER PRIMARY KEY AUTOINCREMENT,
-      github_id     INTEGER UNIQUE NOT NULL,
+      supabase_id   TEXT    UNIQUE NOT NULL,
       username      TEXT    UNIQUE NOT NULL,
       display_name  TEXT,
       avatar_url    TEXT,
@@ -172,17 +172,17 @@ export function initDB() {
   return Promise.resolve();
 }
 
-export function getOrCreatePlayer({ github_id, username, avatar_url, display_name }) {
-  const existing = db.prepare('SELECT * FROM players WHERE github_id = ?').get(github_id);
+export function getOrCreatePlayer({ supabase_id, username, avatar_url, display_name }) {
+  const existing = db.prepare('SELECT * FROM players WHERE supabase_id = ?').get(supabase_id);
   if (existing) {
-    db.prepare('UPDATE players SET username = ?, avatar_url = ?, display_name = ? WHERE github_id = ?')
-      .run(username, avatar_url, display_name, github_id);
+    db.prepare('UPDATE players SET username = ?, avatar_url = ?, display_name = ? WHERE supabase_id = ?')
+      .run(username, avatar_url, display_name, supabase_id);
     return { ...existing, username, avatar_url, display_name };
   }
 
   const result = db.prepare(
-    'INSERT INTO players (github_id, username, avatar_url, display_name) VALUES (?, ?, ?, ?)'
-  ).run(github_id, username, avatar_url, display_name);
+    'INSERT INTO players (supabase_id, username, avatar_url, display_name) VALUES (?, ?, ?, ?)'
+  ).run(supabase_id, username, avatar_url, display_name);
 
   const newPlayer = db.prepare('SELECT * FROM players WHERE id = ?').get(result.lastInsertRowid);
   seedNewPlayer(newPlayer.id);

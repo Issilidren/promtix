@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
-
 const BOOT_LINES = [
   '> sys.init()          ...',
   '> loading modules     ...',
@@ -127,8 +125,8 @@ export default function Landing() {
         )}
 
         {/* GitHub login — the "lock pick" */}
-        <a
-          href={`${API_BASE}/auth/github`}
+        <button
+          onClick={login}
           className="group flex items-center justify-center gap-3 w-full py-4 rounded-xl font-bold text-sm transition-all duration-200 relative overflow-hidden"
           style={{
             background: 'linear-gradient(135deg, #3a0060, #1a0030)',
@@ -144,7 +142,7 @@ export default function Landing() {
           <span className="neon-pink font-mono tracking-widest text-xs uppercase">
             &gt; Initiate GitHub Auth
           </span>
-        </a>
+        </button>
 
         <p className="text-center text-game-muted text-[11px] font-mono">
           Dakota Cohort · Code Platoon members only

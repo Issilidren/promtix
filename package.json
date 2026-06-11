@@ -12,6 +12,7 @@
     "dev": "concurrently \"node server/index.js\" \"npm run dev --prefix client\""
   },
   "devDependencies": {
+    "@playwright/test": "^1.49.1",
     "concurrently": "^8.2.0"
   }
 }

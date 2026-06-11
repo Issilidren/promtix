@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth.jsx';
+import { supabase } from '../lib/supabase.js';
 
 const STEPS = [
   '> credential received     ...',
@@ -10,16 +10,15 @@ const STEPS = [
 ];
 
 export default function AuthCallback() {
-  const { login } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [granted, setGranted] = useState(false);
 
   useEffect(() => {
-    const token = new URLSearchParams(window.location.search).get('token');
-    if (!token) { navigate('/?error=auth_failed'); return; }
+    supabase.auth.exchangeCodeForSession(window.location.search).catch(() => {
+      navigate('/?error=auth_failed');
+    });
 
-    // Animate steps then login
     let i = 0;
     const interval = setInterval(() => {
       i++;
@@ -27,13 +26,12 @@ export default function AuthCallback() {
       if (i >= STEPS.length) {
         clearInterval(interval);
         setGranted(true);
-        login(token);
         setTimeout(() => navigate('/dashboard'), 900);
       }
     }, 320);
 
     return () => clearInterval(interval);
-  }, [login, navigate]);
+  }, [navigate]);
 
   return (
     <div className="min-h-screen bg-game-bg flex items-center justify-center p-6">

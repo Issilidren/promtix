@@ -1,36 +1,49 @@
 import { useState, useEffect, createContext, useContext } from 'react';
+import { supabase } from '../lib/supabase.js';
 
-const API_BASE = import.meta.env.VITE_API_URL || '';
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
+  const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('promtix_token');
-    if (!token) { setLoading(false); return; }
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      if (session?.access_token) {
+        localStorage.setItem('promtix_token', session.access_token);
+      }
+      setLoading(false);
+    });
 
-    fetch(`${API_BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.ok ? r.json() : null)
-      .then(u => { setUser(u); setLoading(false); })
-      .catch(() => { localStorage.removeItem('promtix_token'); setLoading(false); });
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setUser(session?.user ?? null);
+      if (session?.access_token) {
+        localStorage.setItem('promtix_token', session.access_token);
+      } else {
+        localStorage.removeItem('promtix_token');
+      }
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  function login(token) {
-    localStorage.setItem('promtix_token', token);
-    fetch(`${API_BASE}/auth/me`, { headers: { Authorization: `Bearer ${token}` } })
-      .then(r => r.json())
-      .then(setUser);
+  function login() {
+    supabase.auth.signInWithOAuth({
+      provider: 'github',
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
+    });
   }
 
   function logout() {
-    localStorage.removeItem('promtix_token');
-    setUser(null);
+    supabase.auth.signOut();
   }
 
   return (
-    <AuthContext.Provider value={{ user, loading, login, logout }}>
+    <AuthContext.Provider value={{ user, session, loading, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
