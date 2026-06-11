@@ -1,11 +1,11 @@
-import { supabaseAdmin } from '../lib/supabase.js';
+import { getSupabaseAdmin } from '../lib/supabase.js';
 import { getOrCreatePlayer } from '../db/index.js';
 
 export async function requireAuth(req, res, next) {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ error: 'Authentication required' });
 
-  const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+  const { data: { user }, error } = await getSupabaseAdmin().auth.getUser(token);
   if (error || !user) return res.status(401).json({ error: 'Invalid or expired token' });
 
   const player = getOrCreatePlayer({

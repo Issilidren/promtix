@@ -1,4 +1,4 @@
-import { supabaseAdmin } from '../lib/supabase.js';
+import { getSupabaseAdmin } from '../lib/supabase.js';
 import { getChallenges } from '../game/challenges.js';
 import { runChallenge, judgeResponse } from '../ai/claude.js';
 import { calculateXP } from '../game/scoring.js';
@@ -15,7 +15,7 @@ export function initCoop(io) {
   coopNs.use(async (socket, next) => {
     const token = socket.handshake.auth.token;
     if (!token) return next(new Error('Auth required'));
-    const { data: { user }, error } = await supabaseAdmin.auth.getUser(token);
+    const { data: { user }, error } = await getSupabaseAdmin().auth.getUser(token);
     if (error || !user) return next(new Error('Invalid token'));
     const player = getOrCreatePlayer({
       supabase_id: user.id,
