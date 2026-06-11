@@ -40,15 +40,6 @@ router.get('/github/callback', async (req, res) => {
 
     const ghUser = await fetch('https://api.github.com/user', { headers }).then(r => r.json());
 
-    if (GITHUB_ORG) {
-      const memberRes = await fetch(
-        `https://api.github.com/orgs/${GITHUB_ORG}/members/${ghUser.login}`,
-        { headers }
-      );
-      if (memberRes.status !== 204) {
-        return res.redirect(`${CLIENT_URL}?error=not_org_member`);
-      }
-    }
 
     const player = getOrCreatePlayer({
       github_id: ghUser.id,
