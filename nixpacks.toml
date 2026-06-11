@@ -1,5 +1,6 @@
 [phases.setup]
-nixPkgs = ["nodejs_20", "python3", "gcc", "gnumake"]
+nixPkgs = ["nodejs_20", "python3"]
+aptPkgs = ["build-essential", "python3-dev"]
 
 [phases.install]
 cmds = ["cd server && npm install"]

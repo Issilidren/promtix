@@ -1,0 +1,203 @@
+[
+  {
+    "id": "code-py-001",
+    "title": "FizzBuzz Slayer",
+    "description": "Craft a prompt that gets Claude to write a Python function called `fizzbuzz(n)` that returns 'Fizz' for multiples of 3, 'Buzz' for multiples of 5, and 'FizzBuzz' for both. The function must include a docstring and work correctly for n=15.",
+    "difficulty": 1,
+    "category": "python",
+    "type": "code-gen",
+    "systemPrompt": "You are an expert Python developer. Write clean, correct Python code only. Include docstrings. No explanations unless asked.",
+    "token_budget": 300,
+    "xp_reward": 120,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Claude writes a function named exactly `fizzbuzz`",
+        "Returns 'Fizz' for multiples of 3, 'Buzz' for multiples of 5, 'FizzBuzz' for multiples of both",
+        "Function includes a docstring",
+        "Would correctly return 'FizzBuzz' for n=15"
+      ]
+    }
+  },
+  {
+    "id": "code-py-002",
+    "title": "List Reverser",
+    "description": "Write a prompt that makes Claude write a Python function `reverse_list(lst)` that reverses a list WITHOUT using the built-in `.reverse()` method or slicing `[::-1]`. Claude must use a loop.",
+    "difficulty": 2,
+    "category": "python",
+    "type": "code-gen",
+    "systemPrompt": "You are a strict Python instructor who only accepts solutions that use explicit loops. Reject any answer using built-in reverse methods or slice notation.",
+    "token_budget": 300,
+    "xp_reward": 150,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Claude writes a function named `reverse_list`",
+        "Solution uses a loop (for or while), not .reverse() or [::-1]",
+        "Function correctly reverses a list",
+        "Player's prompt explicitly forbids built-in shortcuts"
+      ]
+    }
+  },
+  {
+    "id": "code-py-003",
+    "title": "Bug Bounty: Off By One",
+    "description": "Craft a prompt that makes Claude find AND fix the bug in this code, then explain why it was wrong:\n\n```python\ndef get_last_item(lst):\n    return lst[len(lst)]\n```",
+    "difficulty": 1,
+    "category": "debugging",
+    "type": "debug",
+    "systemPrompt": "You are a Python debugging expert. Identify the bug, provide the fixed code, and explain the error in plain English.",
+    "token_budget": 250,
+    "xp_reward": 130,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Claude identifies the IndexError (off-by-one: should be len(lst)-1)",
+        "Claude provides corrected code: `return lst[len(lst) - 1]` or `return lst[-1]`",
+        "Claude explains why len(lst) is out of bounds",
+        "Player's prompt includes the buggy code"
+      ]
+    }
+  },
+  {
+    "id": "code-py-004",
+    "title": "Dictionary Detective",
+    "description": "Write a prompt that gets Claude to write a Python function `word_count(text)` that takes a string and returns a dictionary with each word as a key and its frequency as the value. Must handle uppercase/lowercase as the same word.",
+    "difficulty": 2,
+    "category": "python",
+    "type": "code-gen",
+    "systemPrompt": "You are a Python developer. Write clean, efficient code. Use only the standard library.",
+    "token_budget": 350,
+    "xp_reward": 160,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Claude writes a function named `word_count`",
+        "Returns a dictionary mapping words to their frequency",
+        "Handles case-insensitivity (e.g. 'The' and 'the' count as same word)",
+        "Function handles empty strings without crashing"
+      ]
+    }
+  },
+  {
+    "id": "code-js-001",
+    "title": "Arrow Function Dojo",
+    "description": "Craft a prompt that makes Claude rewrite this JavaScript function as a one-line arrow function:\n\n```javascript\nfunction double(x) {\n  return x * 2;\n}\n```\nClaude must use an implicit return (no curly braces, no return keyword).",
+    "difficulty": 1,
+    "category": "javascript",
+    "type": "code-refactor",
+    "systemPrompt": "You are a JavaScript expert. Provide only the refactored code with no explanation unless asked.",
+    "token_budget": 150,
+    "xp_reward": 110,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Claude produces a one-line arrow function",
+        "Uses implicit return syntax (no curly braces, no return keyword)",
+        "The function still correctly doubles the input",
+        "Player's prompt includes the original function and requests the arrow function form"
+      ]
+    }
+  },
+  {
+    "id": "code-js-002",
+    "title": "Array Alchemist",
+    "description": "Write a prompt that gets Claude to write a JavaScript function `filterEvens(arr)` that returns only the even numbers from an array. Claude must use `.filter()` — no for loops allowed.",
+    "difficulty": 1,
+    "category": "javascript",
+    "type": "code-gen",
+    "systemPrompt": "You are a modern JavaScript developer who only uses functional array methods. Never use for loops.",
+    "token_budget": 200,
+    "xp_reward": 120,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Claude writes a function named `filterEvens`",
+        "Uses `.filter()` method",
+        "No for loops or while loops in the solution",
+        "Correctly filters out odd numbers"
+      ]
+    }
+  },
+  {
+    "id": "code-js-003",
+    "title": "Promise Keeper",
+    "description": "Craft a prompt that makes Claude write an async JavaScript function `fetchUser(id)` that fetches from `https://jsonplaceholder.typicode.com/users/{id}` and returns the user's name and email as an object. Must use async/await and handle errors with try/catch.",
+    "difficulty": 3,
+    "category": "javascript",
+    "type": "code-gen",
+    "systemPrompt": "You are a senior JavaScript developer. Write production-quality async code with proper error handling.",
+    "token_budget": 400,
+    "xp_reward": 200,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Claude writes an async function named `fetchUser`",
+        "Uses async/await syntax (not .then())",
+        "Includes try/catch error handling",
+        "Returns an object with at least `name` and `email` fields",
+        "Uses the correct JSONPlaceholder URL with the id parameter"
+      ]
+    }
+  },
+  {
+    "id": "code-js-004",
+    "title": "The Null Guard",
+    "description": "Find and fix the bug. Write a prompt that makes Claude identify why this crashes and provide a safe version:\n\n```javascript\nfunction getUserCity(user) {\n  return user.address.city;\n}\n```\nThe fix must handle the case where `user` or `user.address` is null/undefined.",
+    "difficulty": 2,
+    "category": "debugging",
+    "type": "debug",
+    "systemPrompt": "You are a JavaScript debugging expert. Find the bug, write the fixed code using optional chaining or null checks, and explain the issue.",
+    "token_budget": 300,
+    "xp_reward": 160,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Claude identifies the TypeError caused by accessing property on null/undefined",
+        "Fixed version uses optional chaining (?.) or explicit null checks",
+        "Function returns undefined or a fallback value instead of crashing",
+        "Player's prompt includes the original broken code"
+      ]
+    }
+  },
+  {
+    "id": "code-general-001",
+    "title": "Big O Breakdown",
+    "description": "Write a prompt that gets Claude to analyze the time complexity of this code AND suggest a more efficient version:\n\n```python\ndef find_duplicate(lst):\n    for i in range(len(lst)):\n        for j in range(len(lst)):\n            if i != j and lst[i] == lst[j]:\n                return lst[i]\n    return None\n```",
+    "difficulty": 3,
+    "category": "algorithms",
+    "type": "analysis",
+    "systemPrompt": "You are an algorithms expert. Analyze time complexity using Big O notation and always suggest the most efficient solution possible.",
+    "token_budget": 400,
+    "xp_reward": 220,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Claude correctly identifies the current solution as O(n²)",
+        "Claude provides a more efficient solution (O(n) using a set or hash map)",
+        "The optimized solution is correct and actually finds duplicates",
+        "Player's prompt asks for both the complexity analysis AND an optimized version"
+      ]
+    }
+  },
+  {
+    "id": "code-general-002",
+    "title": "SQL Summoner",
+    "description": "Craft a prompt that makes Claude write a SQL query to find all users who have placed more than 3 orders. Tables: `users (id, name, email)` and `orders (id, user_id, total, created_at)`.",
+    "difficulty": 2,
+    "category": "sql",
+    "type": "code-gen",
+    "systemPrompt": "You are a SQL expert. Write clean, correct SQL queries using standard SQL syntax. Always include a brief explanation of what the query does.",
+    "token_budget": 300,
+    "xp_reward": 170,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Claude writes a valid SQL query using JOIN or subquery",
+        "Uses GROUP BY and HAVING to filter users with more than 3 orders",
+        "Returns user information (at minimum the name or id)",
+        "Query is syntactically correct standard SQL"
+      ]
+    }
+  }
+]
