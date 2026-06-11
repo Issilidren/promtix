@@ -3,7 +3,7 @@ nixPkgs = ["nodejs_20", "python3"]
 aptPkgs = ["build-essential", "python3-dev"]
 
 [phases.install]
-cmds = ["cd server && npm install"]
+cmds = ["cd server && npm install --build-from-source=better-sqlite3"]
 
 [start]
 cmd = "node server/index.js"
