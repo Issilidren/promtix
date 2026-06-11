@@ -11,16 +11,16 @@ const {
   JWT_SECRET
 } = process.env;
 
-// On Railway, server and client are the same URL
-const APP_URL = process.env.RAILWAY_STATIC_URL
-  ? `https://${process.env.RAILWAY_STATIC_URL}`
-  : process.env.APP_URL || 'http://localhost:3001';
+// SERVER_URL = Railway backend (handles OAuth callback)
+// CLIENT_URL = Vercel frontend (receives the token after login)
+const SERVER_URL = process.env.SERVER_URL || 'http://localhost:3001';
+const CLIENT_URL = process.env.CLIENT_URL || 'http://localhost:5173';
 
 router.get('/github', (_req, res) => {
   const params = new URLSearchParams({
     client_id: GITHUB_CLIENT_ID,
     scope: 'read:org user:email',
-    redirect_uri: `${APP_URL}/auth/github/callback`
+    redirect_uri: `${SERVER_URL}/auth/github/callback`
   });
   res.redirect(`https://github.com/login/oauth/authorize?${params}`);
 });
@@ -47,7 +47,7 @@ router.get('/github/callback', async (req, res) => {
     );
 
     if (memberRes.status !== 204) {
-      return res.redirect(`${APP_URL}?error=not_org_member`);
+      return res.redirect(`${CLIENT_URL}?error=not_org_member`);
     }
 
     const player = getOrCreatePlayer({
@@ -63,10 +63,10 @@ router.get('/github/callback', async (req, res) => {
       { expiresIn: '7d' }
     );
 
-    res.redirect(`${APP_URL}/auth/callback?token=${token}`);
+    res.redirect(`${CLIENT_URL}/auth/callback?token=${token}`);
   } catch (err) {
     console.error('Auth error:', err);
-    res.redirect(`${APP_URL}?error=auth_failed`);
+    res.redirect(`${CLIENT_URL}?error=auth_failed`);
   }
 });
 
