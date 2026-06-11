@@ -38,11 +38,6 @@ app.use('/api/world', worldRoutes);
 
 app.get('/health', (_req, res) => res.json({ status: 'online', game: 'Promtix' }));
 
-if (process.env.NODE_ENV === 'production') {
-  const clientDist = join(dirname(fileURLToPath(import.meta.url)), '../client/dist');
-  app.use(express.static(clientDist));
-  app.get('*', (_req, res) => res.sendFile(join(clientDist, 'index.html')));
-}
 
 initPvP(io);
 initCoop(io);
