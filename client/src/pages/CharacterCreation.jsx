@@ -57,6 +57,15 @@ const CLASSES = [
     border: 'border-purple-500/40',
     desc: 'Keeps the party alive. High Spirit. Thrives in Co-op mode.',
   },
+  {
+    id: 'Ranger 1',
+    name: 'Ranger',
+    title: 'The Hunter',
+    icon: '⟁',
+    color: 'text-green-400',
+    border: 'border-green-500/40',
+    desc: 'Nature/Tech affinity. Marks targets, commands beasts. Never misses.',
+  },
 ];
 
 export default function CharacterCreation() {

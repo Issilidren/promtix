@@ -21,6 +21,7 @@ const CLASS_ICON = {
   'Rogue 1':   '◈',
   'Druid 1':   '❈',
   'Cleric 1':  '⊕',
+  'Ranger 1':  '⟁',
 };
 
 const NPC_ELEMENT_COLOR = {
