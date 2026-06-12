@@ -12,7 +12,7 @@ const BOOT_LINES = [
 ];
 
 export default function Landing() {
-  const { user } = useAuth();
+  const { user, login } = useAuth();
   const navigate = useNavigate();
   const error = new URLSearchParams(window.location.search).get('error');
   const [bootStep, setBootStep] = useState(0);
