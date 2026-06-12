@@ -86,19 +86,22 @@ export default function Dashboard() {
   const [loading,    setLoading]    = useState(true);
 
   useEffect(() => {
-    Promise.all([
-      api.getMe(),
-      api.getWorld(),
-      api.getNpcs(),
-    ])
-      .then(([me, world, npcList]) => {
+    api.getMe()
+      .then(me => {
         setPlayerData(me);
-        setWorldData(world);
-        setNpcs(npcList);
-        setLoading(false);
-        if (!me.character_set) navigate('/character-creation', { replace: true });
+        if (!me.character_set) {
+          navigate('/character-creation', { replace: true });
+          return;
+        }
+        return Promise.all([api.getWorld(), api.getNpcs()])
+          .then(([world, npcList]) => {
+            setWorldData(world);
+            setNpcs(npcList);
+          })
+          .catch(() => {});
       })
-      .catch(() => setLoading(false));
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, [navigate]);
 
   if (loading) {
@@ -210,17 +213,23 @@ export default function Dashboard() {
         {/* ── Character Status ─────────────────────────────────────── */}
         {char && (
           <div className="bg-game-panel border border-game-border rounded-xl p-4">
-            <div className="flex items-center gap-2 mb-3">
-              <span className="text-[10px] font-mono text-game-muted uppercase tracking-widest">
-                Character Status
-              </span>
-              <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
-                char.status === 'healthy'
-                  ? 'text-green-400 border-green-500/30 bg-green-950/30'
-                  : 'text-yellow-400 border-yellow-500/30 bg-yellow-950/30'
-              }`}>
-                {char.status}
-              </span>
+            <div className="flex items-center justify-between gap-2 mb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono text-game-muted uppercase tracking-widest">
+                  Character Status
+                </span>
+                <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border ${
+                  char.status === 'healthy'
+                    ? 'text-green-400 border-green-500/30 bg-green-950/30'
+                    : 'text-yellow-400 border-yellow-500/30 bg-yellow-950/30'
+                }`}>
+                  {char.status}
+                </span>
+              </div>
+              <Link to="/character-creation"
+                className="text-[10px] font-mono text-game-muted hover:text-neon-cyan transition-colors border border-game-border hover:border-neon-cyan/30 rounded px-2 py-1">
+                ✎ edit
+              </Link>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-1.5">

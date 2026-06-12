@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../utils/api.js';
 
 const CLASSES = [
@@ -74,6 +74,19 @@ export default function CharacterCreation() {
   const [selectedClass, setSelectedClass] = useState(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
+  useEffect(() => {
+    api.getWorld()
+      .then(({ character }) => {
+        if (character && character.name !== 'Adventurer') {
+          setName(character.name);
+          setSelectedClass(character.pf_class);
+          setIsEditing(true);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -100,11 +113,19 @@ export default function CharacterCreation() {
             <span className="neon-cyan">tix</span>
           </div>
           <h1 className="text-xl font-bold text-slate-300 font-mono tracking-widest uppercase">
-            Enter Your Designation
+            {isEditing ? 'Edit Your Designation' : 'Enter Your Designation'}
           </h1>
           <p className="text-game-muted text-sm font-mono">
-            &gt; sys.init(player) — choose wisely, traveler
+            {isEditing
+              ? '> sys.update(player) — change your identity'
+              : '> sys.init(player) — choose wisely, traveler'}
           </p>
+          {isEditing && (
+            <Link to="/dashboard"
+              className="inline-block text-xs font-mono text-game-muted hover:text-neon-cyan transition-colors mt-1">
+              ← back to dashboard
+            </Link>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
@@ -174,7 +195,7 @@ export default function CharacterCreation() {
               bg-neon-cyan text-game-bg hover:brightness-110 shadow-neon-cyan
               disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none"
           >
-            {saving ? '> Initializing...' : '> Enter the Grid'}
+            {saving ? '> Processing...' : isEditing ? '> Update Character' : '> Enter the Grid'}
           </button>
         </form>
       </div>
