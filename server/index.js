@@ -18,17 +18,23 @@ dotenv.config({ path: join(dirname(fileURLToPath(import.meta.url)), '../.env') }
 const app = express();
 const httpServer = createServer(app);
 
+const ALLOWED_ORIGINS = [
+  process.env.CLIENT_URL,
+  'http://localhost:5173',
+  'http://localhost:3000',
+].filter(Boolean);
+
+function corsOrigin(origin, callback) {
+  // Allow requests with no origin (server-to-server, curl, etc.)
+  if (!origin || ALLOWED_ORIGINS.includes(origin)) return callback(null, true);
+  callback(new Error(`CORS: origin ${origin} not allowed`));
+}
+
 const io = new Server(httpServer, {
-  cors: {
-    origin: process.env.CLIENT_URL || 'http://localhost:5173',
-    credentials: true
-  }
+  cors: { origin: corsOrigin, credentials: true }
 });
 
-app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
-  credentials: true
-}));
+app.use(cors({ origin: corsOrigin, credentials: true }));
 app.use(express.json());
 
 app.use('/auth', authRoutes);
