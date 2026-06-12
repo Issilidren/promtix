@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { supabase } from '../lib/supabase.js';
 
 const STEPS = [
   '> credential received     ...',
@@ -15,10 +14,6 @@ export default function AuthCallback() {
   const [granted, setGranted] = useState(false);
 
   useEffect(() => {
-    supabase.auth.exchangeCodeForSession(window.location.search).catch(() => {
-      navigate('/?error=auth_failed');
-    });
-
     let i = 0;
     const interval = setInterval(() => {
       i++;
