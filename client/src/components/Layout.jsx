@@ -94,8 +94,11 @@ export default function Layout({ children, gold, characterName }) {
             </div>
           )}
           <button onClick={logout}
-            className="hidden md:block text-game-muted hover:text-slate-400 text-xs transition-colors font-mono">
-            logout
+            className="flex items-center gap-1.5 text-game-muted hover:text-slate-400 text-xs transition-colors font-mono w-full"
+            title="Logout"
+          >
+            <span className="text-base w-5 text-center shrink-0">⇠</span>
+            <span className="hidden md:block">logout</span>
           </button>
         </div>
       </aside>
