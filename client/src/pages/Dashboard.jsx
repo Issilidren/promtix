@@ -6,13 +6,14 @@ import Layout from '../components/Layout.jsx';
 import { BIOME_LABEL, getBiomeTheme } from '../data/biomes.js';
 
 const CLASS_ICON = {
-  'Fighter 1': '⚔',
-  'Wizard 1':  '✦',
-  'Oracle 1':  '◎',
-  'Rogue 1':   '◈',
-  'Druid 1':   '❈',
-  'Cleric 1':  '⊕',
-  'Ranger 1':  '⟁',
+  'Fighter 1':   '⚔',
+  'Wizard 1':    '✦',
+  'Oracle 1':    '◎',
+  'Rogue 1':     '◈',
+  'Druid 1':     '❈',
+  'Cleric 1':    '⊕',
+  'Ranger 1':    '⟁',
+  'Barbarian 1': '⚡',
 };
 
 const NPC_ELEMENT_COLOR = {

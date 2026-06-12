@@ -3,7 +3,7 @@ import { requireAuth } from '../middleware/requireAuth.js';
 import { getDB } from '../db/index.js';
 import { calculateLevel } from '../game/scoring.js';
 
-const VALID_CLASSES = ['Fighter 1', 'Wizard 1', 'Oracle 1', 'Rogue 1', 'Druid 1', 'Cleric 1', 'Ranger 1'];
+const VALID_CLASSES = ['Fighter 1', 'Wizard 1', 'Oracle 1', 'Rogue 1', 'Druid 1', 'Cleric 1', 'Ranger 1', 'Barbarian 1'];
 
 const router = Router();
 

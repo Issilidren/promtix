@@ -66,6 +66,15 @@ const CLASSES = [
     border: 'border-green-500/40',
     desc: 'Nature/Tech affinity. Marks targets, commands beasts. Never misses.',
   },
+  {
+    id: 'Barbarian 1',
+    name: 'Barbarian',
+    title: 'IronClad',
+    icon: '⚡',
+    color: 'text-orange-400',
+    border: 'border-orange-500/40',
+    desc: 'Raw power. Highest HP. Smashes through every challenge with overwhelming, unfiltered force.',
+  },
 ];
 
 export default function CharacterCreation() {
