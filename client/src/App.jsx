@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth.jsx';
 import Landing from './pages/Landing.jsx';
 import AuthCallback from './pages/AuthCallback.jsx';
+import Lobby from './pages/Lobby.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Solo from './pages/Solo.jsx';
 import PvP from './pages/PvP.jsx';
@@ -27,6 +28,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<Landing />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
+      <Route path="/lobby"             element={<ProtectedRoute><Lobby /></ProtectedRoute>} />
       <Route path="/dashboard"         element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
       <Route path="/character-creation" element={<ProtectedRoute><CharacterCreation /></ProtectedRoute>} />
       <Route path="/solo"              element={<ProtectedRoute><Solo /></ProtectedRoute>} />

@@ -26,7 +26,7 @@ export default function AuthCallback() {
       if (i >= STEPS.length) {
         clearInterval(interval);
         setGranted(true);
-        setTimeout(() => navigate('/dashboard'), 900);
+        setTimeout(() => navigate('/lobby'), 900);
       }
     }, 320);
 
