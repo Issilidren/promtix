@@ -18,7 +18,7 @@ export default function Landing() {
   const [bootStep, setBootStep] = useState(0);
 
   useEffect(() => {
-    if (user) navigate('/dashboard');
+    if (user) navigate('/lobby');
   }, [user, navigate]);
 
   // Boot sequence — reveal lines one by one
