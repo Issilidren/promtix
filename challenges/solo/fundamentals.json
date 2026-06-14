@@ -1,191 +1,419 @@
 [
   {
     "id": "fund-py-001",
-    "title": "Variables 101",
-    "description": "Write a prompt asking Claude to explain what a Python variable is using a real-world analogy. Your prompt should get Claude to show at least 2 examples of creating and changing a variable.",
+    "title": "Python: Your First Output",
+    "description": "print() shows text on the screen.\n\nHere is how it works:\n\n    print(\"Hello!\")\n\nOutput:\n    Hello!\n\nYou put your text inside quotes, inside the parentheses.\nThat's it. That's a full Python program.\n\nNow write a prompt asking Claude to write a print() statement that says your name.",
     "difficulty": 1,
     "category": "fundamentals",
     "type": "prompt-craft",
-    "systemPrompt": "You are a patient Python teacher. Explain concepts clearly with simple, real-world analogies and short code examples. Always include runnable code snippets. Encourage the student.",
-    "token_budget": 500,
-    "xp_reward": 80,
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 400,
+    "xp_reward": 70,
     "evaluation": {
       "method": "llm-judge",
       "criteria": [
-        "Did the AI explain variables with a clear real-world analogy?",
-        "Did the response include at least 2 concrete code examples?",
-        "Is the explanation simple enough for a total beginner?"
+        "Did the AI write a print() statement with a name in it?",
+        "Is the code short and simple — no extra complexity?",
+        "Would a total beginner understand this response?"
       ]
     }
   },
   {
     "id": "fund-py-002",
-    "title": "If/Else Gatekeeper",
-    "description": "Write a prompt that gets Claude to explain Python if/else statements. The explanation should use a decision-making scenario (like choosing what to eat) and show the code for it.",
+    "title": "Python: Printing Numbers",
+    "description": "print() works with numbers too — no quotes needed.\n\n    print(42)\n    print(3.14)\n\nOutput:\n    42\n    3.14\n\nNumbers go straight in. No quotes. Quotes are for words.\n\nNow write a prompt asking Claude to print your age and your favorite number, each on a separate line.",
     "difficulty": 1,
     "category": "fundamentals",
     "type": "prompt-craft",
-    "systemPrompt": "You are a patient Python teacher. Explain concepts clearly with simple, real-world analogies and short code examples. Always include runnable code snippets. Encourage the student.",
-    "token_budget": 500,
-    "xp_reward": 80,
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 400,
+    "xp_reward": 70,
     "evaluation": {
       "method": "llm-judge",
       "criteria": [
-        "Did the AI use a relatable real-world decision scenario?",
-        "Does the code example actually demonstrate if/else correctly?",
-        "Is there an elif example or explanation of multiple conditions?"
+        "Did the AI use two separate print() calls?",
+        "Are numbers used without quotes?",
+        "Is the code clean and simple?"
       ]
     }
   },
   {
     "id": "fund-py-003",
-    "title": "The Loop Ritual",
-    "description": "Write a prompt asking Claude to show you 3 different things you can do with a Python for loop. Your prompt should be specific enough to get working code examples for each use.",
+    "title": "Python: Storing a Word",
+    "description": "A variable is a box that holds a value.\nYou give the box a name. You put something in it.\n\n    name = \"Alex\"\n    print(name)\n\nOutput:\n    Alex\n\nThe = sign means \"store this value in this box.\"\nIt does NOT mean \"equals\" like in math.\n\nNow write a prompt asking Claude to store your name in a variable called 'name' and then print it.",
     "difficulty": 1,
     "category": "fundamentals",
     "type": "prompt-craft",
-    "systemPrompt": "You are a patient Python teacher. Explain concepts clearly with simple, real-world analogies and short code examples. Always include runnable code snippets. Encourage the student.",
-    "token_budget": 600,
-    "xp_reward": 90,
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 400,
+    "xp_reward": 75,
     "evaluation": {
       "method": "llm-judge",
       "criteria": [
-        "Did the AI provide 3 distinct for loop use cases?",
-        "Are all 3 code examples syntactically correct?",
-        "Are the examples varied enough to show the power of loops?"
+        "Did the AI create a variable called 'name'?",
+        "Did the AI print the variable?",
+        "Is the assignment using = correctly?"
       ]
     }
   },
   {
     "id": "fund-py-004",
-    "title": "Function Spellbook",
-    "description": "Write a prompt that gets Claude to explain Python functions from scratch — what they are, why we use them, and how to write one that takes input and returns output. Ask for a simple example you could actually use.",
-    "difficulty": 2,
+    "title": "Python: Storing a Number",
+    "description": "Variables can hold numbers too.\n\n    age = 25\n    print(age)\n\nOutput:\n    25\n\nYou can also do math with number variables:\n\n    score = 10\n    score = score + 5\n    print(score)\n\nOutput:\n    15\n\nNow write a prompt asking Claude to store a number in a variable called 'score', then add 10 to it and print the result.",
+    "difficulty": 1,
     "category": "fundamentals",
     "type": "prompt-craft",
-    "systemPrompt": "You are a patient Python teacher. Explain concepts clearly with simple, real-world analogies and short code examples. Always include runnable code snippets. Encourage the student.",
-    "token_budget": 600,
-    "xp_reward": 100,
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 400,
+    "xp_reward": 75,
     "evaluation": {
       "method": "llm-judge",
       "criteria": [
-        "Did the AI explain what a function is and WHY to use it?",
-        "Does the example show parameters and a return statement?",
-        "Is the example something a beginner could understand and modify?"
+        "Did the AI create a 'score' variable with a number?",
+        "Did the AI add 10 to it?",
+        "Is the final print() showing the updated value?"
       ]
     }
   },
   {
     "id": "fund-py-005",
-    "title": "List Quest",
-    "description": "Write a prompt asking Claude to teach you Python lists — how to create one, add items, remove items, and loop through it. Get Claude to tie all these together in one short program.",
+    "title": "Python: Basic Math",
+    "description": "Python can do math for you.\n\n    print(5 + 3)    # Output: 8\n    print(10 - 4)   # Output: 6\n    print(3 * 4)    # Output: 12\n    print(10 / 2)   # Output: 5.0\n\nThe symbols:\n  +  means add\n  -  means subtract\n  *  means multiply\n  /  means divide\n\n(# is a comment — Python ignores it, it's just a note for you.)\n\nNow write a prompt asking Claude to calculate how many hours are in a week using Python math.",
+    "difficulty": 1,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 400,
+    "xp_reward": 80,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Did the AI use multiplication to calculate hours in a week?",
+        "Is the math correct (7 * 24 = 168)?",
+        "Is there a print() showing the answer?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-006",
+    "title": "Python: Asking a Question",
+    "description": "input() lets your program ask the user a question.\n\n    answer = input(\"What is your name? \")\n    print(\"Nice to meet you, \" + answer)\n\nOutput:\n    What is your name? [user types their name]\n    Nice to meet you, Alex\n\ninput() pauses and waits. It stores what the user types.\nThe + joins two pieces of text together.\n\nNow write a prompt asking Claude to write a mini program that asks the user their favorite color and then prints 'Cool, I like [color] too!'",
+    "difficulty": 1,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 85,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the code use input() to ask for a color?",
+        "Does it print a response that includes what the user typed?",
+        "Is the string concatenation (+) or f-string used correctly?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-007",
+    "title": "Python: Making a Decision",
+    "description": "if lets your program choose what to do.\n\n    temperature = 90\n\n    if temperature > 80:\n        print(\"It's hot outside!\")\n\nOutput:\n    It's hot outside!\n\nThe code inside if only runs when the condition is true.\nNotice the colon : at the end of the if line.\nNotice the 4-space indent before print.\n\nNow write a prompt asking Claude to write a program that checks if a number is greater than 100 and prints a message saying whether it is or not.",
+    "difficulty": 1,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 85,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the code use an if statement with a number comparison?",
+        "Is the colon and indentation correct?",
+        "Does the code print a message for both cases (if and else)?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-008",
+    "title": "Python: Two Paths (if/else)",
+    "description": "else gives your program a second path — what to do when the if is NOT true.\n\n    score = 45\n\n    if score >= 60:\n        print(\"You passed!\")\n    else:\n        print(\"Try again.\")\n\nOutput:\n    Try again.\n\nIf score was 75, it would print \"You passed!\" instead.\nif handles one case. else handles everything else.\n\nNow write a prompt asking Claude to write a program that checks if someone is old enough to vote (18 or older) and prints the right message for each case.",
+    "difficulty": 1,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 85,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the code use if/else correctly?",
+        "Is the age condition set to 18 or older?",
+        "Does each branch print a different message?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-009",
+    "title": "Python: Counting with a Loop",
+    "description": "A for loop repeats code a set number of times.\n\n    for i in range(5):\n        print(i)\n\nOutput:\n    0\n    1\n    2\n    3\n    4\n\nrange(5) gives you the numbers 0, 1, 2, 3, 4.\nIt starts at 0. It stops before 5.\ni is a variable that changes each time through the loop.\n\nNow write a prompt asking Claude to write a for loop that prints the numbers 1 through 10.",
     "difficulty": 2,
     "category": "fundamentals",
     "type": "prompt-craft",
-    "systemPrompt": "You are a patient Python teacher. Explain concepts clearly with simple, real-world analogies and short code examples. Always include runnable code snippets. Encourage the student.",
-    "token_budget": 600,
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 90,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the loop correctly print 1 through 10 (not 0-9)?",
+        "Is range() used correctly (range(1, 11))?",
+        "Is there a brief explanation of how the range works?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-010",
+    "title": "Python: Loops + Lists",
+    "description": "A list holds multiple items in one variable.\n\n    fruits = [\"apple\", \"banana\", \"orange\"]\n\nYou can loop through a list:\n\n    for fruit in fruits:\n        print(fruit)\n\nOutput:\n    apple\n    banana\n    orange\n\nThe loop runs once for each item in the list.\nEach time, 'fruit' holds the current item.\n\nNow write a prompt asking Claude to make a list of 4 animals and loop through it, printing each one.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 90,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the code create a list with 4 animals?",
+        "Does the for loop iterate over the list?",
+        "Does it print each animal on its own line?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-011",
+    "title": "Python: Your First Function",
+    "description": "A function is a block of code you write once and use many times.\n\n    def say_hello():\n        print(\"Hello there!\")\n\n    say_hello()\n    say_hello()\n\nOutput:\n    Hello there!\n    Hello there!\n\ndef means \"define a new function.\"\nThe function name is say_hello.\nThe () means it takes no input.\nYou call it by writing say_hello() — the () is how you run it.\n\nNow write a prompt asking Claude to write a function called 'greet' that prints a welcome message, then calls it twice.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 500,
+    "xp_reward": 95,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Is there a function called 'greet' defined with def?",
+        "Does the function have a print statement inside it?",
+        "Is the function called at least twice?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-012",
+    "title": "Python: Functions with Input",
+    "description": "Functions can take information in — called a parameter.\n\n    def greet(name):\n        print(\"Hello, \" + name + \"!\")\n\n    greet(\"Sam\")\n    greet(\"Jordan\")\n\nOutput:\n    Hello, Sam!\n    Hello, Jordan!\n\nname is the parameter — it's a variable that holds whatever you pass in.\nYou pass values in when you call the function: greet(\"Sam\").\n\nNow write a prompt asking Claude to write a function called 'add_numbers' that takes two numbers and prints their sum.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python tutor for complete beginners. When given a task, write short Python code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 500,
     "xp_reward": 100,
     "evaluation": {
       "method": "llm-judge",
       "criteria": [
-        "Does the response cover creating, adding, and removing from a list?",
-        "Is there a complete mini-program that ties the concepts together?",
-        "Are the list operations explained in plain language?"
+        "Does the function accept two parameters?",
+        "Does it print or return the sum?",
+        "Is the function called with example numbers?"
       ]
     }
   },
   {
     "id": "fund-js-001",
-    "title": "let vs const vs var",
-    "description": "Write a prompt asking Claude to explain the difference between let, const, and var in JavaScript. Your prompt should get Claude to show when to use each one with a short code example for each.",
+    "title": "JavaScript: Your First Output",
+    "description": "console.log() shows output in JavaScript.\nIn a browser, you see it in the DevTools Console (press F12 to open).\n\n    console.log(\"Hello!\");\n\nOutput:\n    Hello!\n\nEvery JavaScript statement ends with a semicolon ;  (it's like a period at the end of a sentence).\n\nNow write a prompt asking Claude to write a console.log() that prints your name.",
     "difficulty": 1,
     "category": "fundamentals",
     "type": "prompt-craft",
-    "systemPrompt": "You are a patient JavaScript teacher for beginners. Explain concepts with clear analogies and short code examples. Keep things practical — focus on what beginners actually need. Always encourage the student.",
-    "token_budget": 500,
-    "xp_reward": 80,
+    "systemPrompt": "You are a patient JavaScript tutor for complete beginners. When given a task, write short JavaScript code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 400,
+    "xp_reward": 70,
     "evaluation": {
       "method": "llm-judge",
       "criteria": [
-        "Did the AI clearly distinguish all three keywords?",
-        "Is there a code example showing when each is appropriate?",
-        "Did the AI give a simple rule of thumb for beginners (e.g. prefer const)?"
+        "Did the AI write a console.log() with a name in it?",
+        "Is the semicolon present?",
+        "Is the code simple and clean?"
       ]
     }
   },
   {
     "id": "fund-js-002",
-    "title": "Array Mastery",
-    "description": "Write a prompt that gets Claude to show you how to use JavaScript arrays — creating one, adding/removing items, and using .map() or .filter(). Ask for simple examples you can run in the browser console.",
+    "title": "JavaScript: const and let",
+    "description": "In JavaScript, you use const or let to create variables.\n\n    const name = \"Alex\";     // const: value never changes\n    let score = 0;           // let: value can change later\n\n    score = score + 10;\n    console.log(score);      // Output: 10\n\nRule of thumb:\nUse const by default.\nUse let only if you need to change the value later.\n\nNow write a prompt asking Claude to create a const for a player's name and a let for their score, then add 5 to the score and log both.",
     "difficulty": 1,
     "category": "fundamentals",
     "type": "prompt-craft",
-    "systemPrompt": "You are a patient JavaScript teacher for beginners. Explain concepts with clear analogies and short code examples. Keep things practical — focus on what beginners actually need. Always encourage the student.",
-    "token_budget": 600,
-    "xp_reward": 90,
+    "systemPrompt": "You are a patient JavaScript tutor for complete beginners. When given a task, write short JavaScript code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 75,
     "evaluation": {
       "method": "llm-judge",
       "criteria": [
-        "Does the response cover basic array operations (create, add, remove)?",
-        "Is .map() or .filter() explained with a working example?",
-        "Are the examples simple enough to try in a browser console?"
+        "Is const used for the name and let for the score?",
+        "Is the score updated and logged?",
+        "Is there a brief explanation of why each keyword was chosen?"
       ]
     }
   },
   {
     "id": "fund-js-003",
-    "title": "Arrow Function Strike",
-    "description": "Write a prompt asking Claude to explain JavaScript arrow functions. Get Claude to show the difference between a regular function and an arrow function, and explain when arrow functions are useful.",
-    "difficulty": 2,
+    "title": "JavaScript: if / else",
+    "description": "if/else in JavaScript works just like Python, but with curly braces {}.\n\n    const age = 20;\n\n    if (age >= 18) {\n      console.log(\"You can vote!\");\n    } else {\n      console.log(\"Not old enough yet.\");\n    }\n\nOutput:\n    You can vote!\n\nThe condition goes inside ( ).\nThe code to run goes inside { }.\n\nNow write a prompt asking Claude to write a JS if/else that checks if a number is positive or negative and logs a message for each case.",
+    "difficulty": 1,
     "category": "fundamentals",
     "type": "prompt-craft",
-    "systemPrompt": "You are a patient JavaScript teacher for beginners. Explain concepts with clear analogies and short code examples. Keep things practical — focus on what beginners actually need. Always encourage the student.",
-    "token_budget": 500,
-    "xp_reward": 100,
+    "systemPrompt": "You are a patient JavaScript tutor for complete beginners. When given a task, write short JavaScript code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 80,
     "evaluation": {
       "method": "llm-judge",
       "criteria": [
-        "Does the response show both a regular function and its arrow function equivalent?",
-        "Is the syntax difference clearly highlighted?",
-        "Does the explanation mention a practical use case (like callbacks or array methods)?"
+        "Does the code use if/else with correct JS syntax (parentheses and curly braces)?",
+        "Does it check if a number is positive or negative?",
+        "Does each branch log a different message?"
       ]
     }
   },
   {
     "id": "fund-js-004",
-    "title": "Object Unlock",
-    "description": "Write a prompt that gets Claude to teach you JavaScript objects — what they are, how to create one, how to read and update properties, and how to loop through one.",
-    "difficulty": 2,
+    "title": "JavaScript: for Loops",
+    "description": "A for loop in JavaScript has 3 parts:\n\n    for (let i = 0; i < 5; i++) {\n      console.log(i);\n    }\n\nOutput:\n    0\n    1\n    2\n    3\n    4\n\nBreaking it down:\n  let i = 0   → start i at 0\n  i < 5       → keep going while i is less than 5\n  i++         → add 1 to i each time (same as i = i + 1)\n\nNow write a prompt asking Claude to write a for loop that logs the numbers 1 through 5.",
+    "difficulty": 1,
     "category": "fundamentals",
     "type": "prompt-craft",
-    "systemPrompt": "You are a patient JavaScript teacher for beginners. Explain concepts with clear analogies and short code examples. Keep things practical — focus on what beginners actually need. Always encourage the student.",
-    "token_budget": 600,
-    "xp_reward": 100,
+    "systemPrompt": "You are a patient JavaScript tutor for complete beginners. When given a task, write short JavaScript code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 80,
     "evaluation": {
       "method": "llm-judge",
       "criteria": [
-        "Does the response explain what an object is with an analogy?",
-        "Are property access, update, and deletion demonstrated?",
-        "Is there an example of looping through object keys/values?"
+        "Does the loop correctly output 1 through 5 (not 0 through 4)?",
+        "Is the for loop syntax correct?",
+        "Is there a brief explanation of each part?"
       ]
     }
   },
   {
     "id": "fund-js-005",
-    "title": "DOM Whisperer",
-    "description": "Write a prompt asking Claude to show you how to change text on a webpage using JavaScript. Your prompt should get Claude to explain document.querySelector and how to update innerHTML or textContent with a working example.",
-    "difficulty": 2,
+    "title": "JavaScript: Arrays",
+    "description": "An array holds a list of items.\n\n    const colors = [\"red\", \"green\", \"blue\"];\n\n    console.log(colors[0]);   // Output: red\n    console.log(colors[1]);   // Output: green\n    console.log(colors[2]);   // Output: blue\n\nArrays start counting at 0, not 1.\nSo the first item is at position [0].\n\nNow write a prompt asking Claude to create an array of 3 of your favorite foods and log each one using its index position.",
+    "difficulty": 1,
     "category": "fundamentals",
     "type": "prompt-craft",
-    "systemPrompt": "You are a patient JavaScript teacher for beginners. Explain concepts with clear analogies and short code examples. Keep things practical — focus on what beginners actually need. Always encourage the student.",
-    "token_budget": 600,
-    "xp_reward": 110,
+    "systemPrompt": "You are a patient JavaScript tutor for complete beginners. When given a task, write short JavaScript code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 80,
     "evaluation": {
       "method": "llm-judge",
       "criteria": [
-        "Does the response explain document.querySelector clearly?",
-        "Is there a working HTML + JS example showing text being changed?",
-        "Does the AI explain the difference between innerHTML and textContent?"
+        "Does the code create an array with 3 items?",
+        "Are all 3 items accessed using bracket notation [0], [1], [2]?",
+        "Is the zero-indexing explained?"
+      ]
+    }
+  },
+  {
+    "id": "fund-js-006",
+    "title": "JavaScript: Looping an Array",
+    "description": "You can loop through an array with .forEach().\n\n    const names = [\"Sam\", \"Alex\", \"Jordan\"];\n\n    names.forEach(function(name) {\n      console.log(name);\n    });\n\nOutput:\n    Sam\n    Alex\n    Jordan\n\n.forEach() runs the code inside once for each item.\nEach time, 'name' holds the current item from the list.\n\nNow write a prompt asking Claude to create an array of 4 cities and use .forEach() to log each one.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient JavaScript tutor for complete beginners. When given a task, write short JavaScript code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 85,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the code use .forEach() on an array?",
+        "Are there 4 cities in the array?",
+        "Does it log each city?"
+      ]
+    }
+  },
+  {
+    "id": "fund-js-007",
+    "title": "JavaScript: Functions",
+    "description": "A function in JavaScript stores a block of code to use later.\n\n    function sayHello() {\n      console.log(\"Hello!\");\n    }\n\n    sayHello();    // Output: Hello!\n    sayHello();    // Output: Hello!\n\nfunction is the keyword to create one.\nsayHello is the name.\n() means no input needed.\n{} holds the code that runs.\n\nNow write a prompt asking Claude to write a function called 'showScore' that logs 'Your score is 100!' and then calls it once.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient JavaScript tutor for complete beginners. When given a task, write short JavaScript code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 450,
+    "xp_reward": 90,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Is there a function called 'showScore' defined correctly?",
+        "Does it log a score message?",
+        "Is it called after being defined?"
+      ]
+    }
+  },
+  {
+    "id": "fund-js-008",
+    "title": "JavaScript: Functions with Parameters",
+    "description": "Functions can take information in.\n\n    function greet(name) {\n      console.log(\"Hey \" + name + \"!\");\n    }\n\n    greet(\"Sam\");     // Output: Hey Sam!\n    greet(\"Jordan\");  // Output: Hey Jordan!\n\nname is the parameter — it holds whatever you pass in.\nYou can use + to join strings and variables together.\n\nNow write a prompt asking Claude to write a function called 'multiply' that takes two numbers and logs their product.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient JavaScript tutor for complete beginners. When given a task, write short JavaScript code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 500,
+    "xp_reward": 95,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the function accept two parameters?",
+        "Does it log or return the product (multiplication)?",
+        "Is it called with two example numbers?"
+      ]
+    }
+  },
+  {
+    "id": "fund-js-009",
+    "title": "JavaScript: Arrow Functions",
+    "description": "Arrow functions are a shorter way to write functions.\n\nRegular function:\n    function add(a, b) {\n      return a + b;\n    }\n\nSame thing as an arrow function:\n    const add = (a, b) => {\n      return a + b;\n    };\n\nShortcut (one line):\n    const add = (a, b) => a + b;\n\nreturn sends a value BACK to whoever called the function.\n\nNow write a prompt asking Claude to rewrite a regular function as an arrow function and explain each step.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient JavaScript tutor for complete beginners. When given a task, write short JavaScript code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 500,
+    "xp_reward": 100,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the response show both a regular function and arrow function version?",
+        "Is the syntax difference clearly explained?",
+        "Is the one-line shorthand shown or mentioned?"
+      ]
+    }
+  },
+  {
+    "id": "fund-js-010",
+    "title": "JavaScript: Objects",
+    "description": "An object holds related information together.\n\n    const player = {\n      name: \"Alex\",\n      level: 5,\n      hp: 100\n    };\n\n    console.log(player.name);   // Output: Alex\n    console.log(player.level);  // Output: 5\n\nEach piece of info has a key (name, level, hp) and a value.\nYou access them with a dot: player.name\n\nNow write a prompt asking Claude to create a JavaScript object for a character with at least 3 properties and log each property.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient JavaScript tutor for complete beginners. When given a task, write short JavaScript code with a brief explanation. Keep every explanation to 1-2 sentences. Always use the simplest possible words. End with an encouraging message.",
+    "token_budget": 500,
+    "xp_reward": 100,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Is there an object with at least 3 properties?",
+        "Are all 3 properties accessed with dot notation and logged?",
+        "Is the concept of key-value pairs explained simply?"
       ]
     }
   }

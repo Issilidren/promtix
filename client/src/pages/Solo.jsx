@@ -99,31 +99,44 @@ function ChallengeList({ challenges, onSelect }) {
       ) : (
         <div className="space-y-2">
           {filtered.map(c => {
+            const isFund = c.category === 'fundamentals';
             const enemy = ENEMY_MAP[c.category] || DEFAULT_ENEMY;
             return (
               <button key={c.id} onClick={() => onSelect(c)}
-                className="w-full bg-game-panel border border-game-border hover:border-neon-cyan/50 rounded-xl p-4 text-left transition-all group">
+                className={`w-full rounded-xl p-4 text-left transition-all group border ${
+                  isFund
+                    ? 'bg-green-950/20 border-green-800/40 hover:border-green-500/60'
+                    : 'bg-game-panel border-game-border hover:border-neon-cyan/50'
+                }`}>
                 <div className="flex items-start gap-3">
                   <div className={`text-2xl mt-0.5 ${enemy.color} group-hover:scale-110 transition-transform shrink-0`}>
                     {enemy.icon}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-0.5">
-                      <h3 className="font-bold text-white group-hover:text-neon-cyan transition-colors text-sm leading-tight">
+                      <h3 className={`font-bold text-sm leading-tight transition-colors ${
+                        isFund ? 'text-green-300 group-hover:text-green-200' : 'text-white group-hover:text-neon-cyan'
+                      }`}>
                         {c.title}
                       </h3>
-                      <span className={`text-[10px] font-mono shrink-0 ${DIFF_COLOR[c.difficulty]}`}>
-                        {DIFF_LABEL[c.difficulty]}
+                      <span className={`text-[10px] font-mono shrink-0 ${
+                        isFund ? 'text-green-500 bg-green-950/60 px-1.5 py-0.5 rounded' : DIFF_COLOR[c.difficulty]
+                      }`}>
+                        {isFund ? 'LESSON' : DIFF_LABEL[c.difficulty]}
                       </span>
                     </div>
-                    <p className="text-slate-400 text-xs leading-relaxed mb-2 line-clamp-2">{c.description}</p>
+                    <p className="text-slate-400 text-xs leading-relaxed mb-2 line-clamp-2">
+                      {c.description.split('\n')[0]}
+                    </p>
                     <div className="flex items-center gap-3 text-[10px] text-game-muted font-mono">
-                      <span className="neon-cyan">+{c.xp_reward} XP</span>
+                      <span className={isFund ? 'text-green-400' : 'neon-cyan'}>+{c.xp_reward} XP</span>
                       <span>{c.token_budget} tokens</span>
                       <span className="uppercase tracking-wide text-slate-500">{c.category}</span>
                     </div>
                   </div>
-                  <div className="shrink-0 text-game-muted group-hover:text-neon-cyan transition-colors text-xl font-bold">
+                  <div className={`shrink-0 text-xl font-bold transition-colors ${
+                    isFund ? 'text-green-700 group-hover:text-green-400' : 'text-game-muted group-hover:text-neon-cyan'
+                  }`}>
                     ›
                   </div>
                 </div>
@@ -206,6 +219,7 @@ function BattleScreen({ challenge, playerData, onBack }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const isFund = challenge.category === 'fundamentals';
   const enemy = ENEMY_MAP[challenge.category] || DEFAULT_ENEMY;
   const enemyMaxHP = ENEMY_MAX_HP[challenge.difficulty] || 50;
 
@@ -245,17 +259,29 @@ function BattleScreen({ challenge, playerData, onBack }) {
 
   return (
     <div className="space-y-3 slide-up">
-      {/* Turn Order Bar */}
-      <div className="bg-game-panel border border-game-border rounded-xl px-4 py-2.5 flex items-center justify-between">
+      {/* Turn Order / Study Bar */}
+      <div className={`border rounded-xl px-4 py-2.5 flex items-center justify-between ${
+        isFund ? 'bg-green-950/20 border-green-800/40' : 'bg-game-panel border-game-border'
+      }`}>
         <div className="flex items-center gap-2 text-[10px] font-mono">
-          <span className="text-neon-cyan font-bold">[{charName}]</span>
-          <span className="text-game-muted">→</span>
-          <span className={`font-bold ${enemy.color}`}>[{enemy.name}]</span>
+          {isFund ? (
+            <>
+              <span className="text-green-400 font-bold">[ STUDY MODE ]</span>
+              <span className="text-game-muted">→</span>
+              <span className="text-green-300 font-bold">{challenge.title.split(':')[0]}</span>
+            </>
+          ) : (
+            <>
+              <span className="text-neon-cyan font-bold">[{charName}]</span>
+              <span className="text-game-muted">→</span>
+              <span className={`font-bold ${enemy.color}`}>[{enemy.name}]</span>
+            </>
+          )}
         </div>
         <div className="flex items-center gap-2 text-[10px] font-mono text-game-muted">
-          <span className={DIFF_COLOR[challenge.difficulty]}>{DIFF_LABEL[challenge.difficulty]}</span>
-          <span className="text-game-border">|</span>
-          <span className="neon-cyan">+{challenge.xp_reward} XP</span>
+          {!isFund && <span className={DIFF_COLOR[challenge.difficulty]}>{DIFF_LABEL[challenge.difficulty]}</span>}
+          {!isFund && <span className="text-game-border">|</span>}
+          <span className={isFund ? 'text-green-400' : 'neon-cyan'}>+{challenge.xp_reward} XP</span>
         </div>
       </div>
 
@@ -264,46 +290,73 @@ function BattleScreen({ challenge, playerData, onBack }) {
 
         {/* Left Column: Enemy + Action Panel */}
         <div className="space-y-3">
-          {/* Enemy Card */}
-          <div className={`bg-game-panel border rounded-xl p-4 transition-all duration-300 ${
-            loading ? 'border-neon-pink/60 shadow-[0_0_20px_rgba(224,64,251,0.15)]' : 'border-game-border'
-          }`}>
-            <div className="text-[10px] font-mono text-game-muted mb-3 uppercase tracking-widest">ENEMY</div>
-            <div className={`text-5xl text-center mb-2 ${enemy.color} ${loading ? 'animate-pulse' : ''}`}>
-              {enemy.icon}
+          {/* Enemy Card or Lesson Card */}
+          {isFund ? (
+            <div className={`bg-green-950/20 border rounded-xl p-4 transition-all duration-300 ${
+              loading ? 'border-green-500/60' : 'border-green-800/40'
+            }`}>
+              <div className="text-[10px] font-mono text-green-600 mb-3 uppercase tracking-widest">LESSON</div>
+              <div className={`text-5xl text-center mb-2 text-green-400 ${loading ? 'animate-pulse' : ''}`}>◉</div>
+              <div className="text-center text-xs font-black font-mono mb-0.5 text-green-300">
+                CONFUSION_SPIRIT
+              </div>
+              <div className="text-[10px] text-center text-game-muted font-mono mb-3 uppercase tracking-wide">
+                Defeat it by understanding the concept
+              </div>
+              <div className="text-[9px] font-mono text-green-600 mb-1">UNDERSTANDING</div>
+              <HPBar current={enemyMaxHP} max={enemyMaxHP} color="bg-green-500" />
             </div>
-            <div className={`text-center text-xs font-black font-mono mb-0.5 ${enemy.color}`}>
-              {enemy.name}
+          ) : (
+            <div className={`bg-game-panel border rounded-xl p-4 transition-all duration-300 ${
+              loading ? 'border-neon-pink/60 shadow-[0_0_20px_rgba(224,64,251,0.15)]' : 'border-game-border'
+            }`}>
+              <div className="text-[10px] font-mono text-game-muted mb-3 uppercase tracking-widest">ENEMY</div>
+              <div className={`text-5xl text-center mb-2 ${enemy.color} ${loading ? 'animate-pulse' : ''}`}>
+                {enemy.icon}
+              </div>
+              <div className={`text-center text-xs font-black font-mono mb-0.5 ${enemy.color}`}>
+                {enemy.name}
+              </div>
+              <div className="text-[10px] text-center text-game-muted font-mono mb-3 uppercase tracking-wide">
+                {challenge.category} • {DIFF_LABEL[challenge.difficulty]}
+              </div>
+              <div className="text-[9px] font-mono text-game-muted mb-1">HP</div>
+              <HPBar current={enemyMaxHP} max={enemyMaxHP} color="bg-neon-pink" />
             </div>
-            <div className="text-[10px] text-center text-game-muted font-mono mb-3 uppercase tracking-wide">
-              {challenge.category} • {DIFF_LABEL[challenge.difficulty]}
-            </div>
-            <div className="text-[9px] font-mono text-game-muted mb-1">HP</div>
-            <HPBar current={enemyMaxHP} max={enemyMaxHP} color="bg-neon-pink" />
-          </div>
+          )}
 
           {/* Action Panel */}
-          <div className="bg-game-panel border border-game-border rounded-xl p-3">
+          <div className={`border rounded-xl p-3 ${
+            isFund ? 'bg-green-950/20 border-green-800/40' : 'bg-game-panel border-game-border'
+          }`}>
             <div className="text-[10px] font-mono text-game-muted mb-2 uppercase tracking-widest">ACTION</div>
             <div className="space-y-1.5">
               <button
                 onClick={castPrompt}
                 disabled={!prompt.trim() || loading}
-                className="w-full text-left px-3 py-2.5 rounded-lg text-xs font-black font-mono bg-neon-cyan/15 border border-neon-cyan text-neon-cyan hover:bg-neon-cyan/25 transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+                className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-black font-mono transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
+                  isFund
+                    ? 'bg-green-900/40 border border-green-500 text-green-300 hover:bg-green-900/60'
+                    : 'bg-neon-cyan/15 border border-neon-cyan text-neon-cyan hover:bg-neon-cyan/25'
+                }`}
               >
-                ⚡ CAST PROMPT
+                {isFund ? '◉ SUBMIT ANSWER' : '⚡ CAST PROMPT'}
               </button>
-              <button className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono bg-game-card border border-game-border text-game-muted opacity-40 cursor-not-allowed" disabled>
-                🛡 DEFEND
-              </button>
-              <button className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono bg-game-card border border-game-border text-game-muted opacity-40 cursor-not-allowed" disabled>
-                🎒 ITEMS
-              </button>
+              {!isFund && (
+                <>
+                  <button className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono bg-game-card border border-game-border text-game-muted opacity-40 cursor-not-allowed" disabled>
+                    🛡 DEFEND
+                  </button>
+                  <button className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono bg-game-card border border-game-border text-game-muted opacity-40 cursor-not-allowed" disabled>
+                    🎒 ITEMS
+                  </button>
+                </>
+              )}
               <button
                 onClick={onBack}
                 className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono bg-game-card border border-red-900/40 text-red-400 hover:bg-red-950/30 transition-colors"
               >
-                ✕ FLEE
+                {isFund ? '← BACK TO LESSONS' : '✕ FLEE'}
               </button>
             </div>
           </div>
@@ -311,16 +364,43 @@ function BattleScreen({ challenge, playerData, onBack }) {
 
         {/* Right Area: Challenge + Prompt Input */}
         <div className="lg:col-span-2 space-y-3">
-          {/* Challenge / Enemy Brief */}
-          <div className="circuit-corner bg-game-panel border border-game-border rounded-xl p-4">
-            <div className="text-[10px] font-mono text-game-muted mb-1 uppercase tracking-widest">
-              {enemy.name} prepares its attack...
+          {/* Challenge / Lesson Brief */}
+          <div className={`circuit-corner rounded-xl p-4 border ${
+            isFund ? 'bg-green-950/10 border-green-800/40' : 'bg-game-panel border-game-border'
+          }`}>
+            <div className={`text-[10px] font-mono mb-1 uppercase tracking-widest ${
+              isFund ? 'text-green-600' : 'text-game-muted'
+            }`}>
+              {isFund ? '◉ Read the lesson, then write your prompt below' : `${enemy.name} prepares its attack...`}
             </div>
-            <h2 className="font-black text-white text-base mb-2">{challenge.title}</h2>
-            <div className="text-slate-300 text-xs leading-relaxed font-mono whitespace-pre-wrap">
-              {challenge.description}
-            </div>
-            <div className="mt-3 pt-3 border-t border-game-border flex gap-4 text-[10px] font-mono text-game-muted">
+            <h2 className={`font-black text-base mb-3 ${isFund ? 'text-green-200' : 'text-white'}`}>
+              {challenge.title}
+            </h2>
+            {isFund ? (
+              <div className="space-y-2 text-sm">
+                {challenge.description.split('\n').map((line, i) => {
+                  const isCode = line.startsWith('    ') || line.startsWith('\t');
+                  if (isCode) {
+                    return (
+                      <div key={i} className="bg-game-bg/80 border border-green-900/40 rounded px-3 py-1 font-mono text-green-300 text-xs">
+                        {line.trim()}
+                      </div>
+                    );
+                  }
+                  if (line.trim() === '') return <div key={i} className="h-1" />;
+                  return (
+                    <p key={i} className="text-slate-300 leading-relaxed">{line}</p>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className="text-slate-300 text-xs leading-relaxed font-mono whitespace-pre-wrap">
+                {challenge.description}
+              </div>
+            )}
+            <div className={`mt-3 pt-3 flex gap-4 text-[10px] font-mono border-t ${
+              isFund ? 'border-green-900/30 text-green-700' : 'border-game-border text-game-muted'
+            }`}>
               <span>Budget: {challenge.token_budget} tokens</span>
               <span className="capitalize">{challenge.category}</span>
             </div>
@@ -328,8 +408,12 @@ function BattleScreen({ challenge, playerData, onBack }) {
 
           {/* Prompt Input */}
           <div>
-            <label className="text-[10px] font-mono text-neon-cyan mb-1.5 block uppercase tracking-widest">
-              &gt; Craft your spell — Ctrl+Enter to cast
+            <label className={`text-[10px] font-mono mb-1.5 block uppercase tracking-widest ${
+              isFund ? 'text-green-500' : 'text-neon-cyan'
+            }`}>
+              {isFund
+                ? '> Write your prompt — ask Claude about what you just read'
+                : '> Craft your spell — Ctrl+Enter to cast'}
             </label>
             <textarea
               value={prompt}
@@ -351,13 +435,18 @@ function BattleScreen({ challenge, playerData, onBack }) {
           <button
             onClick={castPrompt}
             disabled={!prompt.trim() || loading}
-            className="w-full bg-neon-cyan text-game-bg font-black py-3.5 rounded-xl hover:brightness-110 transition-all shadow-neon-cyan disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none text-sm tracking-wide"
+            className={`w-full font-black py-3.5 rounded-xl hover:brightness-110 transition-all text-sm tracking-wide disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none ${
+              isFund
+                ? 'bg-green-600 text-white shadow-[0_0_15px_rgba(34,197,94,0.25)]'
+                : 'bg-neon-cyan text-game-bg shadow-neon-cyan'
+            }`}
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
-                <span className="animate-pulse">◈</span> CASTING...
+                <span className="animate-pulse">{isFund ? '◉' : '◈'}</span>
+                {isFund ? 'SUBMITTING...' : 'CASTING...'}
               </span>
-            ) : '⚡ CAST PROMPT'}
+            ) : isFund ? '◉ SUBMIT ANSWER' : '⚡ CAST PROMPT'}
           </button>
         </div>
       </div>
@@ -433,8 +522,12 @@ export default function Solo() {
       <div className="max-w-4xl mx-auto px-4 md:px-6 py-8">
         <div className="flex items-center justify-between mb-5">
           <div>
-            <div className="text-[10px] font-mono text-game-muted uppercase tracking-widest mb-0.5">
-              {active ? '[ IN BATTLE ]' : 'Mode'}
+            <div className={`text-[10px] font-mono uppercase tracking-widest mb-0.5 ${
+              active?.category === 'fundamentals' ? 'text-green-500' : 'text-game-muted'
+            }`}>
+              {active
+                ? active.category === 'fundamentals' ? '[ STUDY MODE ]' : '[ IN BATTLE ]'
+                : 'Mode'}
             </div>
             <h1 className="text-xl font-black text-white">
               {active ? active.title : 'Training Grounds'}
