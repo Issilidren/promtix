@@ -17,6 +17,11 @@ async function apiFetch(path, options = {}) {
 
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: 'Request failed' }));
+    if (res.status === 401) {
+      localStorage.removeItem('promtix_token');
+      window.location.href = '/';
+      return;
+    }
     throw new Error(err.error || 'Request failed');
   }
 
