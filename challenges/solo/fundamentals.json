@@ -1,0 +1,192 @@
+[
+  {
+    "id": "fund-py-001",
+    "title": "Variables 101",
+    "description": "Write a prompt asking Claude to explain what a Python variable is using a real-world analogy. Your prompt should get Claude to show at least 2 examples of creating and changing a variable.",
+    "difficulty": 1,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python teacher. Explain concepts clearly with simple, real-world analogies and short code examples. Always include runnable code snippets. Encourage the student.",
+    "token_budget": 500,
+    "xp_reward": 80,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Did the AI explain variables with a clear real-world analogy?",
+        "Did the response include at least 2 concrete code examples?",
+        "Is the explanation simple enough for a total beginner?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-002",
+    "title": "If/Else Gatekeeper",
+    "description": "Write a prompt that gets Claude to explain Python if/else statements. The explanation should use a decision-making scenario (like choosing what to eat) and show the code for it.",
+    "difficulty": 1,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python teacher. Explain concepts clearly with simple, real-world analogies and short code examples. Always include runnable code snippets. Encourage the student.",
+    "token_budget": 500,
+    "xp_reward": 80,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Did the AI use a relatable real-world decision scenario?",
+        "Does the code example actually demonstrate if/else correctly?",
+        "Is there an elif example or explanation of multiple conditions?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-003",
+    "title": "The Loop Ritual",
+    "description": "Write a prompt asking Claude to show you 3 different things you can do with a Python for loop. Your prompt should be specific enough to get working code examples for each use.",
+    "difficulty": 1,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python teacher. Explain concepts clearly with simple, real-world analogies and short code examples. Always include runnable code snippets. Encourage the student.",
+    "token_budget": 600,
+    "xp_reward": 90,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Did the AI provide 3 distinct for loop use cases?",
+        "Are all 3 code examples syntactically correct?",
+        "Are the examples varied enough to show the power of loops?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-004",
+    "title": "Function Spellbook",
+    "description": "Write a prompt that gets Claude to explain Python functions from scratch — what they are, why we use them, and how to write one that takes input and returns output. Ask for a simple example you could actually use.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python teacher. Explain concepts clearly with simple, real-world analogies and short code examples. Always include runnable code snippets. Encourage the student.",
+    "token_budget": 600,
+    "xp_reward": 100,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Did the AI explain what a function is and WHY to use it?",
+        "Does the example show parameters and a return statement?",
+        "Is the example something a beginner could understand and modify?"
+      ]
+    }
+  },
+  {
+    "id": "fund-py-005",
+    "title": "List Quest",
+    "description": "Write a prompt asking Claude to teach you Python lists — how to create one, add items, remove items, and loop through it. Get Claude to tie all these together in one short program.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient Python teacher. Explain concepts clearly with simple, real-world analogies and short code examples. Always include runnable code snippets. Encourage the student.",
+    "token_budget": 600,
+    "xp_reward": 100,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the response cover creating, adding, and removing from a list?",
+        "Is there a complete mini-program that ties the concepts together?",
+        "Are the list operations explained in plain language?"
+      ]
+    }
+  },
+  {
+    "id": "fund-js-001",
+    "title": "let vs const vs var",
+    "description": "Write a prompt asking Claude to explain the difference between let, const, and var in JavaScript. Your prompt should get Claude to show when to use each one with a short code example for each.",
+    "difficulty": 1,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient JavaScript teacher for beginners. Explain concepts with clear analogies and short code examples. Keep things practical — focus on what beginners actually need. Always encourage the student.",
+    "token_budget": 500,
+    "xp_reward": 80,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Did the AI clearly distinguish all three keywords?",
+        "Is there a code example showing when each is appropriate?",
+        "Did the AI give a simple rule of thumb for beginners (e.g. prefer const)?"
+      ]
+    }
+  },
+  {
+    "id": "fund-js-002",
+    "title": "Array Mastery",
+    "description": "Write a prompt that gets Claude to show you how to use JavaScript arrays — creating one, adding/removing items, and using .map() or .filter(). Ask for simple examples you can run in the browser console.",
+    "difficulty": 1,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient JavaScript teacher for beginners. Explain concepts with clear analogies and short code examples. Keep things practical — focus on what beginners actually need. Always encourage the student.",
+    "token_budget": 600,
+    "xp_reward": 90,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the response cover basic array operations (create, add, remove)?",
+        "Is .map() or .filter() explained with a working example?",
+        "Are the examples simple enough to try in a browser console?"
+      ]
+    }
+  },
+  {
+    "id": "fund-js-003",
+    "title": "Arrow Function Strike",
+    "description": "Write a prompt asking Claude to explain JavaScript arrow functions. Get Claude to show the difference between a regular function and an arrow function, and explain when arrow functions are useful.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient JavaScript teacher for beginners. Explain concepts with clear analogies and short code examples. Keep things practical — focus on what beginners actually need. Always encourage the student.",
+    "token_budget": 500,
+    "xp_reward": 100,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the response show both a regular function and its arrow function equivalent?",
+        "Is the syntax difference clearly highlighted?",
+        "Does the explanation mention a practical use case (like callbacks or array methods)?"
+      ]
+    }
+  },
+  {
+    "id": "fund-js-004",
+    "title": "Object Unlock",
+    "description": "Write a prompt that gets Claude to teach you JavaScript objects — what they are, how to create one, how to read and update properties, and how to loop through one.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient JavaScript teacher for beginners. Explain concepts with clear analogies and short code examples. Keep things practical — focus on what beginners actually need. Always encourage the student.",
+    "token_budget": 600,
+    "xp_reward": 100,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the response explain what an object is with an analogy?",
+        "Are property access, update, and deletion demonstrated?",
+        "Is there an example of looping through object keys/values?"
+      ]
+    }
+  },
+  {
+    "id": "fund-js-005",
+    "title": "DOM Whisperer",
+    "description": "Write a prompt asking Claude to show you how to change text on a webpage using JavaScript. Your prompt should get Claude to explain document.querySelector and how to update innerHTML or textContent with a working example.",
+    "difficulty": 2,
+    "category": "fundamentals",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a patient JavaScript teacher for beginners. Explain concepts with clear analogies and short code examples. Keep things practical — focus on what beginners actually need. Always encourage the student.",
+    "token_budget": 600,
+    "xp_reward": 110,
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the response explain document.querySelector clearly?",
+        "Is there a working HTML + JS example showing text being changed?",
+        "Does the AI explain the difference between innerHTML and textContent?"
+      ]
+    }
+  }
+]

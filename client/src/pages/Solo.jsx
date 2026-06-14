@@ -6,16 +6,18 @@ const DIFF_LABEL = ['', 'Novice', 'Apprentice', 'Adept', 'Master'];
 const DIFF_COLOR = ['', 'text-green-400', 'text-yellow-400', 'text-orange-400', 'text-red-400'];
 
 const CATEGORIES = [
-  { key: 'all',               label: 'ALL',     icon: '⊕' },
-  { key: 'python',            label: 'PYTHON',  icon: '🐍' },
-  { key: 'javascript',        label: 'JS',      icon: '⚡' },
-  { key: 'debugging',         label: 'DEBUG',   icon: '◈'  },
-  { key: 'sql',               label: 'SQL',     icon: '⊞'  },
-  { key: 'algorithms',        label: 'ALGO',    icon: '∑'  },
-  { key: 'prompt-engineering', label: 'PROMPT', icon: '✦'  },
+  { key: 'all',               label: 'ALL',          icon: '⊕' },
+  { key: 'fundamentals',      label: 'FUNDAMENTALS', icon: '◉', always: true },
+  { key: 'python',            label: 'PYTHON',       icon: '🐍' },
+  { key: 'javascript',        label: 'JS',           icon: '⚡' },
+  { key: 'debugging',         label: 'DEBUG',        icon: '◈'  },
+  { key: 'sql',               label: 'SQL',          icon: '⊞'  },
+  { key: 'algorithms',        label: 'ALGO',         icon: '∑'  },
+  { key: 'prompt-engineering', label: 'PROMPT',      icon: '✦'  },
 ];
 
 const ENEMY_MAP = {
+  fundamentals:       { name: 'CONFUSION_SPIRIT', icon: '◉',  color: 'text-green-400'  },
   python:             { name: 'SYNTAX_WRAITH',    icon: '☠',  color: 'text-yellow-400' },
   javascript:         { name: 'CALLBACK_DEMON',   icon: '⚡', color: 'text-yellow-300' },
   debugging:          { name: 'BUG_ENTITY',       icon: '◈',  color: 'text-red-400'    },
@@ -59,7 +61,11 @@ function CategoryTabs({ active, onChange }) {
           onClick={() => onChange(cat.key)}
           className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
             active === cat.key
-              ? 'bg-neon-cyan text-game-bg shadow-neon-cyan'
+              ? cat.always
+                ? 'bg-green-500 text-game-bg shadow-[0_0_10px_rgba(34,197,94,0.4)]'
+                : 'bg-neon-cyan text-game-bg shadow-neon-cyan'
+              : cat.always
+              ? 'bg-green-950/60 border border-green-600/50 text-green-400 hover:border-green-500 hover:text-green-300'
               : 'bg-game-card border border-game-border text-game-muted hover:border-neon-cyan/40 hover:text-neon-cyan'
           }`}
         >
@@ -82,8 +88,13 @@ function ChallengeList({ challenges, onSelect }) {
       <CategoryTabs active={category} onChange={setCategory} />
 
       {filtered.length === 0 ? (
-        <div className="text-center text-game-muted py-14 font-mono">
-          &gt; No {category} challenges yet — more coming soon
+        <div className="text-center text-game-muted py-14 font-mono space-y-1">
+          <div>&gt; No {category} challenges yet — more coming soon</div>
+          {category !== 'all' && category !== 'fundamentals' && (
+            <div className="text-xs text-green-500/70 mt-2">
+              &gt; Try the <button onClick={() => setCategory('fundamentals')} className="text-green-400 underline">FUNDAMENTALS</button> tab to start learning Python &amp; JS basics
+            </div>
+          )}
         </div>
       ) : (
         <div className="space-y-2">
@@ -212,6 +223,7 @@ function BattleScreen({ challenge, playerData, onBack }) {
     setError(null);
     try {
       const data = await api.submitChallenge(challenge.id, prompt);
+      if (!data) { setError('Server error — please try again.'); return; }
       setResult(data);
     } catch (err) {
       setError(err.message);
