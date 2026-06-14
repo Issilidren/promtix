@@ -166,7 +166,7 @@ export default function Dashboard() {
 
             {char && (
               <div className="flex items-center gap-3">
-                <img src={user?.avatar_url} alt=""
+                <img src={user?.user_metadata?.avatar_url} alt=""
                   className="w-10 h-10 rounded-full border-2 shrink-0"
                   style={{ borderColor: theme.accent + '80' }}
                 />

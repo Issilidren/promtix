@@ -12,6 +12,7 @@ import worldRoutes from './routes/world.js';
 import { initDB } from './db/index.js';
 import { initPvP } from './socket/pvpHandler.js';
 import { initCoop } from './socket/coopHandler.js';
+import { initChat } from './socket/chatHandler.js';
 
 dotenv.config({ path: join(dirname(fileURLToPath(import.meta.url)), '../.env') });
 
@@ -35,6 +36,7 @@ app.get('/health', (_req, res) => res.json({ status: 'online', game: 'Promtix' }
 
 initPvP(io);
 initCoop(io);
+initChat(io);
 
 const PORT = process.env.PORT || 3001;
 
