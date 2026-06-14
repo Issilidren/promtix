@@ -1,0 +1,290 @@
+[
+  {
+    "id": "prac-py-001",
+    "title": "Python Practice: Show Output",
+    "description": "Write a prompt asking Claude to write Python code that displays the message 'Level Up!' on the screen.\n\nDo not look at your notes. Try to remember how output works in Python.",
+    "difficulty": 1,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a Python tutor. When given a task, write short Python code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 350,
+    "xp_reward": 100,
+    "hints": [
+      "Python has a built-in function that shows text on the screen. Its name describes exactly what it does.",
+      "The function name is print(). You put the text you want to show inside the parentheses, in quotes.",
+      "Example structure: print(\"your message here\") — now write a prompt asking Claude to use this with 'Level Up!'"
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Did the AI use print() correctly?",
+        "Does the output show 'Level Up!'?",
+        "Is the code simple and correct?"
+      ]
+    }
+  },
+  {
+    "id": "prac-py-002",
+    "title": "Python Practice: Store a Value",
+    "description": "Write a prompt asking Claude to create a Python variable called 'lives' with the value 3, then print it.\n\nTry to remember how to create a variable without looking at the lesson.",
+    "difficulty": 1,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a Python tutor. When given a task, write short Python code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 350,
+    "xp_reward": 100,
+    "hints": [
+      "A variable is like a labeled box. You give it a name, then use a symbol to put a value inside it.",
+      "The symbol you use to store a value is = (the single equals sign). Like: name = value",
+      "It looks like this: lives = 3 — then print(lives). Write a prompt asking Claude to do exactly this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Is there a variable called 'lives' set to 3?",
+        "Is print() used to display it?",
+        "Is the code syntactically correct?"
+      ]
+    }
+  },
+  {
+    "id": "prac-py-003",
+    "title": "Python Practice: Do the Math",
+    "description": "Write a prompt asking Claude to write Python code that calculates how many minutes are in a day and prints the answer.\n\nThere are 24 hours in a day and 60 minutes in each hour. Try to figure out the code from memory.",
+    "difficulty": 1,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a Python tutor. When given a task, write short Python code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 350,
+    "xp_reward": 100,
+    "hints": [
+      "Python can do math using the same operators you know: +, -, and one for multiplication.",
+      "The multiplication symbol in Python is * (the asterisk). So 3 times 4 would be written as 3 * 4.",
+      "You need: 24 * 60 — put that inside a print() or store it in a variable first. Write a prompt asking Claude to do this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the code multiply 24 by 60?",
+        "Is the answer printed (1440)?",
+        "Is the code correct and simple?"
+      ]
+    }
+  },
+  {
+    "id": "prac-py-004",
+    "title": "Python Practice: Make a Decision",
+    "description": "Write a prompt asking Claude to write Python code that checks if a player's score (set to 75) is high enough to pass (50 or above) and prints a message for each case.\n\nTry to recall the structure from memory.",
+    "difficulty": 2,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a Python tutor. When given a task, write short Python code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 400,
+    "xp_reward": 110,
+    "hints": [
+      "Python uses a special keyword to check a condition. If the condition is true, it runs some code. If not, it can run different code.",
+      "The keywords are: if and else. After the condition, you need a colon (:). The code inside must be indented (4 spaces).",
+      "Structure: if score >= 50: / (indent) print('Passed') / else: / (indent) print('Try again') — write a prompt asking Claude to use this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Is there an if/else checking score >= 50?",
+        "Are both branches printing a message?",
+        "Is the indentation correct?"
+      ]
+    }
+  },
+  {
+    "id": "prac-py-005",
+    "title": "Python Practice: Count with a Loop",
+    "description": "Write a prompt asking Claude to write Python code that prints every number from 1 to 5, each on its own line.\n\nYou should NOT need to write 5 separate print() calls. Try to remember the shortcut.",
+    "difficulty": 2,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a Python tutor. When given a task, write short Python code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 400,
+    "xp_reward": 110,
+    "hints": [
+      "Python has a way to repeat code automatically — you write it once and it runs multiple times. Think about the keyword that starts this.",
+      "The keyword is for. Combined with range(), it lets you count through numbers. range() generates a sequence of numbers.",
+      "Structure: for i in range(1, 6): / (indent) print(i) — this starts at 1 and stops before 6. Write a prompt asking Claude to do this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the loop print 1 through 5 (not 0 through 4)?",
+        "Is range() used correctly?",
+        "Is there only one print() call (not five separate ones)?"
+      ]
+    }
+  },
+  {
+    "id": "prac-py-006",
+    "title": "Python Practice: Write a Function",
+    "description": "Write a prompt asking Claude to write a Python function called 'double' that takes a number, multiplies it by 2, and returns the result. Then call it with the number 7 and print the output.\n\nTry this from memory.",
+    "difficulty": 2,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a Python tutor. When given a task, write short Python code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 450,
+    "xp_reward": 120,
+    "hints": [
+      "To create a reusable block of code in Python, you use a specific keyword followed by a name and parentheses. The code inside is indented.",
+      "The keyword is def. So: def function_name(parameter): — then the indented code runs when you call it. Use return to send a value back.",
+      "Structure: def double(n): / (indent) return n * 2 / (blank line) / print(double(7)) — write a prompt asking Claude to write exactly this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Is there a function called 'double' that accepts one parameter?",
+        "Does it multiply the parameter by 2 and return the result?",
+        "Is it called with 7 and the result printed?"
+      ]
+    }
+  },
+  {
+    "id": "prac-js-001",
+    "title": "JS Practice: Show Output",
+    "description": "Write a prompt asking Claude to write JavaScript code that displays the message 'Player Ready!' in the console.\n\nTry to recall the JavaScript way to show output without looking at your notes.",
+    "difficulty": 1,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a JavaScript tutor. When given a task, write short JavaScript code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 350,
+    "xp_reward": 100,
+    "hints": [
+      "JavaScript output goes to the browser's developer console. There is a built-in object with a method for logging output.",
+      "The object is called console. The method is .log(). You call them together: console.log()",
+      "Structure: console.log(\"Player Ready!\"); — note the semicolon at the end. Write a prompt asking Claude to write this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the code use console.log()?",
+        "Does it output 'Player Ready!'?",
+        "Is the semicolon present?"
+      ]
+    }
+  },
+  {
+    "id": "prac-js-002",
+    "title": "JS Practice: Create Variables",
+    "description": "Write a prompt asking Claude to write JavaScript that stores a player's name in a variable that won't change, and a player's score in a variable that can change. Then add 50 to the score and log both variables.\n\nRemember the two different variable keywords and when to use each.",
+    "difficulty": 1,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a JavaScript tutor. When given a task, write short JavaScript code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 400,
+    "xp_reward": 105,
+    "hints": [
+      "JavaScript has two modern ways to create variables. One is for values that never change. One is for values that might change later.",
+      "Use const for things that stay the same. Use let for things that will be updated. Avoid var — it is older and causes confusion.",
+      "Structure: const name = \"Alex\"; / let score = 0; / score = score + 50; / console.log(name, score); — write a prompt for this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Is const used for the name and let for the score?",
+        "Is 50 added to the score?",
+        "Are both variables logged?"
+      ]
+    }
+  },
+  {
+    "id": "prac-js-003",
+    "title": "JS Practice: Make a Decision",
+    "description": "Write a prompt asking Claude to write JavaScript that checks if a temperature variable (set to 95) is above 90. If it is, log 'Stay hydrated!' Otherwise, log 'Enjoy the weather!'\n\nRemember the JavaScript syntax is slightly different from Python.",
+    "difficulty": 1,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a JavaScript tutor. When given a task, write short JavaScript code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 400,
+    "xp_reward": 105,
+    "hints": [
+      "JavaScript uses if and else just like Python. The main difference is how you write the condition and the code block.",
+      "In JavaScript: the condition goes inside ( ) and the code block goes inside { }. No indentation requirement — the curly braces do the job.",
+      "Structure: if (temperature > 90) { / console.log('Stay hydrated!'); / } else { / console.log('Enjoy the weather!'); / } — write a prompt for this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Is the condition checking temperature > 90?",
+        "Are parentheses () used for the condition?",
+        "Are curly braces {} used for the code blocks?"
+      ]
+    }
+  },
+  {
+    "id": "prac-js-004",
+    "title": "JS Practice: Count with a Loop",
+    "description": "Write a prompt asking Claude to write JavaScript that logs the numbers 1 through 5 using a loop.\n\nRemember: JavaScript for loops look a bit more verbose than Python's. Try to recall all 3 parts.",
+    "difficulty": 2,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a JavaScript tutor. When given a task, write short JavaScript code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 400,
+    "xp_reward": 110,
+    "hints": [
+      "A JavaScript for loop has 3 parts inside the parentheses, separated by semicolons: a starting point, a condition to keep going, and an update step.",
+      "The 3 parts are: let i = 1 (start at 1), i <= 5 (keep going while i is 5 or less), i++ (add 1 each time).",
+      "Structure: for (let i = 1; i <= 5; i++) { / console.log(i); / } — write a prompt asking Claude to write exactly this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Does the loop output 1 through 5?",
+        "Does it use correct for loop syntax with all 3 parts?",
+        "Is console.log() used inside the loop?"
+      ]
+    }
+  },
+  {
+    "id": "prac-js-005",
+    "title": "JS Practice: Write a Function",
+    "description": "Write a prompt asking Claude to write a JavaScript function called 'greet' that takes a name as input and logs 'Hello, [name]!' when called. Then call it with any name.\n\nTry to remember the function syntax from memory.",
+    "difficulty": 2,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a JavaScript tutor. When given a task, write short JavaScript code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 450,
+    "xp_reward": 115,
+    "hints": [
+      "In JavaScript, to define a reusable block of code, you use a specific keyword followed by a name and parentheses. The code goes in curly braces.",
+      "The keyword is function. To pass information in, you put a parameter name inside the (). To build the message, use a template literal with backticks.",
+      "Structure: function greet(name) { / console.log(`Hello, ${name}!`); / } / greet(\"Sam\"); — write a prompt asking Claude to write this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Is there a function called 'greet' with one parameter?",
+        "Does it log a greeting that includes the name?",
+        "Is the function called with a test name?"
+      ]
+    }
+  },
+  {
+    "id": "prac-js-006",
+    "title": "JS Practice: Work with an Array",
+    "description": "Write a prompt asking Claude to write JavaScript that creates an array of 3 colors, then logs each color using a loop.\n\nSee if you can remember both how to make the array and how to loop through it.",
+    "difficulty": 2,
+    "category": "practice",
+    "type": "prompt-craft",
+    "systemPrompt": "You are a JavaScript tutor. When given a task, write short JavaScript code with a 1-sentence explanation. Keep it simple.",
+    "token_budget": 450,
+    "xp_reward": 120,
+    "hints": [
+      "An array in JavaScript holds multiple items in one variable. The items go inside square brackets, separated by commas.",
+      "To loop through an array, you can use .forEach(). It runs a function once for each item. The function receives the current item as a parameter.",
+      "Structure: const colors = [\"red\", \"blue\", \"green\"]; / colors.forEach(function(color) { / console.log(color); / }); — write a prompt for this."
+    ],
+    "evaluation": {
+      "method": "llm-judge",
+      "criteria": [
+        "Is there an array with 3 colors?",
+        "Does the loop go through each item?",
+        "Is each color logged separately?"
+      ]
+    }
+  }
+]

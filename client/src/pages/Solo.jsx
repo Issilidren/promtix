@@ -8,6 +8,7 @@ const DIFF_COLOR = ['', 'text-green-400', 'text-yellow-400', 'text-orange-400', 
 const CATEGORIES = [
   { key: 'all',               label: 'ALL',          icon: '⊕' },
   { key: 'fundamentals',      label: 'FUNDAMENTALS', icon: '◉', always: true },
+  { key: 'practice',          label: 'PRACTICE',     icon: '▶', always: true },
   { key: 'python',            label: 'PYTHON',       icon: '🐍' },
   { key: 'javascript',        label: 'JS',           icon: '⚡' },
   { key: 'debugging',         label: 'DEBUG',        icon: '◈'  },
@@ -17,8 +18,9 @@ const CATEGORIES = [
 ];
 
 const ENEMY_MAP = {
-  fundamentals:       { name: 'CONFUSION_SPIRIT', icon: '◉',  color: 'text-green-400'  },
-  python:             { name: 'SYNTAX_WRAITH',    icon: '☠',  color: 'text-yellow-400' },
+  fundamentals:       { name: 'CONFUSION_SPIRIT',  icon: '◉',  color: 'text-green-400'  },
+  practice:           { name: 'RECALL_SPECTER',     icon: '▶',  color: 'text-amber-400'  },
+  python:             { name: 'SYNTAX_WRAITH',      icon: '☠',  color: 'text-yellow-400' },
   javascript:         { name: 'CALLBACK_DEMON',   icon: '⚡', color: 'text-yellow-300' },
   debugging:          { name: 'BUG_ENTITY',       icon: '◈',  color: 'text-red-400'    },
   sql:                { name: 'NULL_PHANTOM',      icon: '⊞',  color: 'text-purple-400' },
@@ -61,9 +63,13 @@ function CategoryTabs({ active, onChange }) {
           onClick={() => onChange(cat.key)}
           className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
             active === cat.key
-              ? cat.always
+              ? cat.key === 'practice'
+                ? 'bg-amber-500 text-game-bg shadow-[0_0_10px_rgba(245,158,11,0.4)]'
+                : cat.always
                 ? 'bg-green-500 text-game-bg shadow-[0_0_10px_rgba(34,197,94,0.4)]'
                 : 'bg-neon-cyan text-game-bg shadow-neon-cyan'
+              : cat.key === 'practice'
+              ? 'bg-amber-950/60 border border-amber-600/50 text-amber-400 hover:border-amber-500 hover:text-amber-300'
               : cat.always
               ? 'bg-green-950/60 border border-green-600/50 text-green-400 hover:border-green-500 hover:text-green-300'
               : 'bg-game-card border border-game-border text-game-muted hover:border-neon-cyan/40 hover:text-neon-cyan'
@@ -100,45 +106,43 @@ function ChallengeList({ challenges, onSelect }) {
         <div className="space-y-2">
           {filtered.map(c => {
             const isFund = c.category === 'fundamentals';
+            const isPrac = c.category === 'practice';
             const enemy = ENEMY_MAP[c.category] || DEFAULT_ENEMY;
+            const th = isFund
+              ? { bg: 'bg-green-950/20 border-green-800/40 hover:border-green-500/60', title: 'text-green-300 group-hover:text-green-200', badge: 'text-green-500 bg-green-950/60', xp: 'text-green-400', arr: 'text-green-700 group-hover:text-green-400', label: 'LESSON' }
+              : isPrac
+              ? { bg: 'bg-amber-950/20 border-amber-800/40 hover:border-amber-500/60', title: 'text-amber-300 group-hover:text-amber-200', badge: 'text-amber-500 bg-amber-950/60', xp: 'text-amber-400', arr: 'text-amber-700 group-hover:text-amber-400', label: 'PRACTICE' }
+              : { bg: 'bg-game-panel border-game-border hover:border-neon-cyan/50', title: 'text-white group-hover:text-neon-cyan', badge: DIFF_COLOR[c.difficulty], xp: 'neon-cyan', arr: 'text-game-muted group-hover:text-neon-cyan', label: DIFF_LABEL[c.difficulty] };
             return (
               <button key={c.id} onClick={() => onSelect(c)}
-                className={`w-full rounded-xl p-4 text-left transition-all group border ${
-                  isFund
-                    ? 'bg-green-950/20 border-green-800/40 hover:border-green-500/60'
-                    : 'bg-game-panel border-game-border hover:border-neon-cyan/50'
-                }`}>
+                className={`w-full rounded-xl p-4 text-left transition-all group border ${th.bg}`}>
                 <div className="flex items-start gap-3">
                   <div className={`text-2xl mt-0.5 ${enemy.color} group-hover:scale-110 transition-transform shrink-0`}>
                     {enemy.icon}
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between gap-2 mb-0.5">
-                      <h3 className={`font-bold text-sm leading-tight transition-colors ${
-                        isFund ? 'text-green-300 group-hover:text-green-200' : 'text-white group-hover:text-neon-cyan'
-                      }`}>
+                      <h3 className={`font-bold text-sm leading-tight transition-colors ${th.title}`}>
                         {c.title}
                       </h3>
                       <span className={`text-[10px] font-mono shrink-0 ${
-                        isFund ? 'text-green-500 bg-green-950/60 px-1.5 py-0.5 rounded' : DIFF_COLOR[c.difficulty]
+                        (isFund || isPrac) ? `${th.badge} px-1.5 py-0.5 rounded` : th.badge
                       }`}>
-                        {isFund ? 'LESSON' : DIFF_LABEL[c.difficulty]}
+                        {th.label}
                       </span>
                     </div>
                     <p className="text-slate-400 text-xs leading-relaxed mb-2 line-clamp-2">
                       {c.description.split('\n')[0]}
                     </p>
                     <div className="flex items-center gap-3 text-[10px] text-game-muted font-mono">
-                      <span className={isFund ? 'text-green-400' : 'neon-cyan'}>+{c.xp_reward} XP</span>
+                      <span className={th.xp}>+{c.xp_reward} XP</span>
+                      {isPrac && c.hints && (
+                        <span className="text-amber-800">{c.hints.length} hints if needed</span>
+                      )}
                       <span>{c.token_budget} tokens</span>
-                      <span className="uppercase tracking-wide text-slate-500">{c.category}</span>
                     </div>
                   </div>
-                  <div className={`shrink-0 text-xl font-bold transition-colors ${
-                    isFund ? 'text-green-700 group-hover:text-green-400' : 'text-game-muted group-hover:text-neon-cyan'
-                  }`}>
-                    ›
-                  </div>
+                  <div className={`shrink-0 text-xl font-bold transition-colors ${th.arr}`}>›</div>
                 </div>
               </button>
             );
@@ -149,9 +153,11 @@ function ChallengeList({ challenges, onSelect }) {
   );
 }
 
-function BattleResults({ result, challenge, onRetry, onBack }) {
+function BattleResults({ result, challenge, onRetry, onBack, failCount }) {
+  const isPrac = challenge.category === 'practice';
   const enemy = ENEMY_MAP[challenge.category] || DEFAULT_ENEMY;
   const victory = result.score >= 50;
+  const hintsLeft = isPrac && challenge.hints ? Math.max(0, challenge.hints.length - failCount) : 0;
 
   return (
     <div className="space-y-4 slide-up">
@@ -159,11 +165,27 @@ function BattleResults({ result, challenge, onRetry, onBack }) {
         victory ? 'bg-neon-cyan/5 border-neon-cyan/40' : 'bg-red-950/30 border-red-700/40'
       }`}>
         <div className={`text-[10px] font-mono tracking-widest mb-1 ${victory ? 'neon-cyan' : 'text-red-400'}`}>
-          {victory ? '[ SPELL CONNECTED ]' : '[ ATTACK MISSED ]'}
+          {victory
+            ? isPrac ? '[ MEMORY CONFIRMED ]' : '[ SPELL CONNECTED ]'
+            : isPrac ? '[ RECALL FAILED ]' : '[ ATTACK MISSED ]'}
         </div>
         <div className={`text-3xl font-black mb-3 ${victory ? 'neon-cyan' : 'text-red-400'}`}>
-          {victory ? 'CAST SUCCESSFUL' : 'PROMPT FAILED'}
+          {victory
+            ? isPrac ? 'NAILED IT' : 'CAST SUCCESSFUL'
+            : isPrac
+              ? hintsLeft > 0 ? `HINT UNLOCKED` : 'CHECK THE LESSON'
+              : 'PROMPT FAILED'}
         </div>
+        {!victory && isPrac && hintsLeft > 0 && (
+          <p className="text-amber-400 text-xs font-mono mb-1">
+            A clue has been added below. Read it and try again.
+          </p>
+        )}
+        {!victory && isPrac && hintsLeft === 0 && (
+          <p className="text-slate-400 text-xs font-mono mb-1">
+            All hints are showing. Review the FUNDAMENTALS lesson and try once more.
+          </p>
+        )}
         <div className="flex items-center justify-center gap-6">
           <div className="relative">
             <ScoreRing score={result.score} />
@@ -201,12 +223,16 @@ function BattleResults({ result, challenge, onRetry, onBack }) {
 
       <div className="flex gap-3">
         <button onClick={onRetry}
-          className="flex-1 bg-game-card hover:bg-game-border text-white font-bold py-3 rounded-xl transition-colors text-sm">
-          Retry Battle
+          className={`flex-1 font-bold py-3 rounded-xl transition-colors text-sm ${
+            !victory && isPrac
+              ? 'bg-amber-900/40 border border-amber-600 text-amber-300 hover:bg-amber-900/60'
+              : 'bg-game-card hover:bg-game-border text-white'
+          }`}>
+          {!victory && isPrac ? (hintsLeft > 0 ? '▶ Try Again (hint unlocked)' : '▶ Try Again') : 'Retry'}
         </button>
         <button onClick={onBack}
           className="flex-1 bg-neon-cyan text-game-bg font-bold py-3 rounded-xl hover:brightness-110 transition-all shadow-neon-cyan text-sm">
-          Next Battle →
+          {isPrac ? 'Back to List →' : 'Next Battle →'}
         </button>
       </div>
     </div>
@@ -218,6 +244,9 @@ function BattleScreen({ challenge, playerData, onBack }) {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [failCount, setFailCount] = useState(0);
+  const isPrac = challenge.category === 'practice';
+  const hintsToShow = isPrac && challenge.hints ? challenge.hints.slice(0, failCount) : [];
 
   const isFund = challenge.category === 'fundamentals';
   const enemy = ENEMY_MAP[challenge.category] || DEFAULT_ENEMY;
@@ -251,7 +280,14 @@ function BattleScreen({ challenge, playerData, onBack }) {
       <BattleResults
         result={result}
         challenge={challenge}
-        onRetry={() => { setResult(null); setPrompt(''); }}
+        failCount={failCount}
+        onRetry={() => {
+          if (result.score < 50 && isPrac && failCount < (challenge.hints?.length ?? 0)) {
+            setFailCount(f => f + 1);
+          }
+          setResult(null);
+          setPrompt('');
+        }}
         onBack={onBack}
       />
     );
@@ -261,7 +297,7 @@ function BattleScreen({ challenge, playerData, onBack }) {
     <div className="space-y-3 slide-up">
       {/* Turn Order / Study Bar */}
       <div className={`border rounded-xl px-4 py-2.5 flex items-center justify-between ${
-        isFund ? 'bg-green-950/20 border-green-800/40' : 'bg-game-panel border-game-border'
+        isFund ? 'bg-green-950/20 border-green-800/40' : isPrac ? 'bg-amber-950/20 border-amber-800/40' : 'bg-game-panel border-game-border'
       }`}>
         <div className="flex items-center gap-2 text-[10px] font-mono">
           {isFund ? (
@@ -269,6 +305,14 @@ function BattleScreen({ challenge, playerData, onBack }) {
               <span className="text-green-400 font-bold">[ STUDY MODE ]</span>
               <span className="text-game-muted">→</span>
               <span className="text-green-300 font-bold">{challenge.title.split(':')[0]}</span>
+            </>
+          ) : isPrac ? (
+            <>
+              <span className="text-amber-400 font-bold">[ PRACTICE MODE ]</span>
+              <span className="text-game-muted">→</span>
+              <span className="text-amber-300 font-bold">
+                {failCount === 0 ? 'No hints — go from memory' : `Hint ${failCount} active`}
+              </span>
             </>
           ) : (
             <>
@@ -279,9 +323,9 @@ function BattleScreen({ challenge, playerData, onBack }) {
           )}
         </div>
         <div className="flex items-center gap-2 text-[10px] font-mono text-game-muted">
-          {!isFund && <span className={DIFF_COLOR[challenge.difficulty]}>{DIFF_LABEL[challenge.difficulty]}</span>}
-          {!isFund && <span className="text-game-border">|</span>}
-          <span className={isFund ? 'text-green-400' : 'neon-cyan'}>+{challenge.xp_reward} XP</span>
+          {!isFund && !isPrac && <span className={DIFF_COLOR[challenge.difficulty]}>{DIFF_LABEL[challenge.difficulty]}</span>}
+          {!isFund && !isPrac && <span className="text-game-border">|</span>}
+          <span className={isFund ? 'text-green-400' : isPrac ? 'text-amber-400' : 'neon-cyan'}>+{challenge.xp_reward} XP</span>
         </div>
       </div>
 
@@ -327,7 +371,7 @@ function BattleScreen({ challenge, playerData, onBack }) {
 
           {/* Action Panel */}
           <div className={`border rounded-xl p-3 ${
-            isFund ? 'bg-green-950/20 border-green-800/40' : 'bg-game-panel border-game-border'
+            isFund ? 'bg-green-950/20 border-green-800/40' : isPrac ? 'bg-amber-950/20 border-amber-800/40' : 'bg-game-panel border-game-border'
           }`}>
             <div className="text-[10px] font-mono text-game-muted mb-2 uppercase tracking-widest">ACTION</div>
             <div className="space-y-1.5">
@@ -337,12 +381,14 @@ function BattleScreen({ challenge, playerData, onBack }) {
                 className={`w-full text-left px-3 py-2.5 rounded-lg text-xs font-black font-mono transition-all disabled:opacity-40 disabled:cursor-not-allowed ${
                   isFund
                     ? 'bg-green-900/40 border border-green-500 text-green-300 hover:bg-green-900/60'
+                    : isPrac
+                    ? 'bg-amber-900/40 border border-amber-500 text-amber-300 hover:bg-amber-900/60'
                     : 'bg-neon-cyan/15 border border-neon-cyan text-neon-cyan hover:bg-neon-cyan/25'
                 }`}
               >
-                {isFund ? '◉ SUBMIT ANSWER' : '⚡ CAST PROMPT'}
+                {isFund ? '◉ SUBMIT ANSWER' : isPrac ? '▶ SUBMIT ANSWER' : '⚡ CAST PROMPT'}
               </button>
-              {!isFund && (
+              {!isFund && !isPrac && (
                 <>
                   <button className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono bg-game-card border border-game-border text-game-muted opacity-40 cursor-not-allowed" disabled>
                     🛡 DEFEND
@@ -352,11 +398,16 @@ function BattleScreen({ challenge, playerData, onBack }) {
                   </button>
                 </>
               )}
+              {isPrac && failCount > 0 && (
+                <div className="text-[10px] font-mono text-amber-700 px-1 py-1 text-center">
+                  {failCount} hint{failCount > 1 ? 's' : ''} unlocked — scroll down to read
+                </div>
+              )}
               <button
                 onClick={onBack}
                 className="w-full text-left px-3 py-2 rounded-lg text-xs font-mono bg-game-card border border-red-900/40 text-red-400 hover:bg-red-950/30 transition-colors"
               >
-                {isFund ? '← BACK TO LESSONS' : '✕ FLEE'}
+                {isFund ? '← BACK TO LESSONS' : isPrac ? '← BACK TO PRACTICE' : '✕ FLEE'}
               </button>
             </div>
           </div>
@@ -366,32 +417,52 @@ function BattleScreen({ challenge, playerData, onBack }) {
         <div className="lg:col-span-2 space-y-3">
           {/* Challenge / Lesson Brief */}
           <div className={`circuit-corner rounded-xl p-4 border ${
-            isFund ? 'bg-green-950/10 border-green-800/40' : 'bg-game-panel border-game-border'
+            isFund ? 'bg-green-950/10 border-green-800/40' : isPrac ? 'bg-amber-950/10 border-amber-800/40' : 'bg-game-panel border-game-border'
           }`}>
             <div className={`text-[10px] font-mono mb-1 uppercase tracking-widest ${
-              isFund ? 'text-green-600' : 'text-game-muted'
+              isFund ? 'text-green-600' : isPrac ? 'text-amber-600' : 'text-game-muted'
             }`}>
-              {isFund ? '◉ Read the lesson, then write your prompt below' : `${enemy.name} prepares its attack...`}
+              {isFund
+                ? '◉ Read the lesson, then write your prompt below'
+                : isPrac
+                ? '▶ No hints yet — write from memory, then try'
+                : `${enemy.name} prepares its attack...`}
             </div>
-            <h2 className={`font-black text-base mb-3 ${isFund ? 'text-green-200' : 'text-white'}`}>
+            <h2 className={`font-black text-base mb-3 ${isFund ? 'text-green-200' : isPrac ? 'text-amber-200' : 'text-white'}`}>
               {challenge.title}
             </h2>
             {isFund ? (
               <div className="space-y-2 text-sm">
                 {challenge.description.split('\n').map((line, i) => {
                   const isCode = line.startsWith('    ') || line.startsWith('\t');
-                  if (isCode) {
-                    return (
-                      <div key={i} className="bg-game-bg/80 border border-green-900/40 rounded px-3 py-1 font-mono text-green-300 text-xs">
-                        {line.trim()}
-                      </div>
-                    );
-                  }
-                  if (line.trim() === '') return <div key={i} className="h-1" />;
-                  return (
-                    <p key={i} className="text-slate-300 leading-relaxed">{line}</p>
+                  if (isCode) return (
+                    <div key={i} className="bg-game-bg/80 border border-green-900/40 rounded px-3 py-1 font-mono text-green-300 text-xs">
+                      {line.trim()}
+                    </div>
                   );
+                  if (line.trim() === '') return <div key={i} className="h-1" />;
+                  return <p key={i} className="text-slate-300 leading-relaxed">{line}</p>;
                 })}
+              </div>
+            ) : isPrac ? (
+              <div className="space-y-2 text-sm">
+                {challenge.description.split('\n').map((line, i) => {
+                  if (line.trim() === '') return <div key={i} className="h-1" />;
+                  return <p key={i} className="text-slate-300 leading-relaxed">{line}</p>;
+                })}
+                {hintsToShow.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <div className="text-[10px] font-mono text-amber-600 uppercase tracking-widest pt-2 border-t border-amber-900/40">
+                      ▶ Hints unlocked
+                    </div>
+                    {hintsToShow.map((hint, i) => (
+                      <div key={i} className="bg-amber-950/30 border border-amber-800/50 rounded-lg px-3 py-2 text-amber-200 text-xs leading-relaxed">
+                        <span className="text-amber-500 font-mono font-bold mr-2">Hint {i + 1}:</span>
+                        {hint}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             ) : (
               <div className="text-slate-300 text-xs leading-relaxed font-mono whitespace-pre-wrap">
@@ -399,20 +470,24 @@ function BattleScreen({ challenge, playerData, onBack }) {
               </div>
             )}
             <div className={`mt-3 pt-3 flex gap-4 text-[10px] font-mono border-t ${
-              isFund ? 'border-green-900/30 text-green-700' : 'border-game-border text-game-muted'
+              isFund ? 'border-green-900/30 text-green-700' : isPrac ? 'border-amber-900/30 text-amber-800' : 'border-game-border text-game-muted'
             }`}>
               <span>Budget: {challenge.token_budget} tokens</span>
-              <span className="capitalize">{challenge.category}</span>
+              {isPrac && challenge.hints && (
+                <span>{failCount}/{challenge.hints.length} hints used</span>
+              )}
             </div>
           </div>
 
           {/* Prompt Input */}
           <div>
             <label className={`text-[10px] font-mono mb-1.5 block uppercase tracking-widest ${
-              isFund ? 'text-green-500' : 'text-neon-cyan'
+              isFund ? 'text-green-500' : isPrac ? 'text-amber-500' : 'text-neon-cyan'
             }`}>
               {isFund
                 ? '> Write your prompt — ask Claude about what you just read'
+                : isPrac
+                ? '> Write your prompt from memory — Ctrl+Enter to submit'
                 : '> Craft your spell — Ctrl+Enter to cast'}
             </label>
             <textarea
@@ -438,15 +513,17 @@ function BattleScreen({ challenge, playerData, onBack }) {
             className={`w-full font-black py-3.5 rounded-xl hover:brightness-110 transition-all text-sm tracking-wide disabled:opacity-30 disabled:cursor-not-allowed disabled:shadow-none ${
               isFund
                 ? 'bg-green-600 text-white shadow-[0_0_15px_rgba(34,197,94,0.25)]'
+                : isPrac
+                ? 'bg-amber-600 text-white shadow-[0_0_15px_rgba(245,158,11,0.25)]'
                 : 'bg-neon-cyan text-game-bg shadow-neon-cyan'
             }`}
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
-                <span className="animate-pulse">{isFund ? '◉' : '◈'}</span>
-                {isFund ? 'SUBMITTING...' : 'CASTING...'}
+                <span className="animate-pulse">{isFund ? '◉' : isPrac ? '▶' : '◈'}</span>
+                {isFund || isPrac ? 'SUBMITTING...' : 'CASTING...'}
               </span>
-            ) : isFund ? '◉ SUBMIT ANSWER' : '⚡ CAST PROMPT'}
+            ) : isFund ? '◉ SUBMIT ANSWER' : isPrac ? '▶ SUBMIT ANSWER' : '⚡ CAST PROMPT'}
           </button>
         </div>
       </div>
@@ -523,10 +600,10 @@ export default function Solo() {
         <div className="flex items-center justify-between mb-5">
           <div>
             <div className={`text-[10px] font-mono uppercase tracking-widest mb-0.5 ${
-              active?.category === 'fundamentals' ? 'text-green-500' : 'text-game-muted'
+              active?.category === 'fundamentals' ? 'text-green-500' : active?.category === 'practice' ? 'text-amber-500' : 'text-game-muted'
             }`}>
               {active
-                ? active.category === 'fundamentals' ? '[ STUDY MODE ]' : '[ IN BATTLE ]'
+                ? active.category === 'fundamentals' ? '[ STUDY MODE ]' : active.category === 'practice' ? '[ PRACTICE MODE ]' : '[ IN BATTLE ]'
                 : 'Mode'}
             </div>
             <h1 className="text-xl font-black text-white">
