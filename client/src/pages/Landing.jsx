@@ -12,21 +12,26 @@ const BOOT_LINES = [
 ];
 
 export default function Landing() {
-  const { user, login } = useAuth();
+  const { user, loading, login } = useAuth();
   const navigate = useNavigate();
   const error = new URLSearchParams(window.location.search).get('error');
   const [bootStep, setBootStep] = useState(0);
 
   useEffect(() => {
-    if (user) navigate('/lobby');
-  }, [user, navigate]);
+    if (!loading && user) navigate('/lobby', { replace: true });
+  }, [user, loading, navigate]);
 
   // Boot sequence — reveal lines one by one
   useEffect(() => {
+    if (loading || user) return;
     if (bootStep >= BOOT_LINES.length) return;
     const t = setTimeout(() => setBootStep(s => s + 1), bootStep === 0 ? 200 : 380);
     return () => clearTimeout(t);
-  }, [bootStep]);
+  }, [bootStep, loading, user]);
+
+  if (loading || user) {
+    return <div className="min-h-screen bg-game-bg" />;
+  }
 
   return (
     <div className="min-h-screen bg-game-bg text-white flex flex-col items-center justify-center p-6 overflow-hidden relative">
