@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { supabase } from '../lib/supabase.js';
 
 const STEPS = [
   '> credential received     ...',
@@ -12,20 +13,35 @@ export default function AuthCallback() {
   const navigate = useNavigate();
   const [step, setStep] = useState(0);
   const [granted, setGranted] = useState(false);
+  const [authError, setAuthError] = useState(null);
 
   useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      i++;
-      setStep(i);
-      if (i >= STEPS.length) {
-        clearInterval(interval);
-        setGranted(true);
-        setTimeout(() => navigate('/lobby'), 900);
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        subscription.unsubscribe();
+        let i = 0;
+        const interval = setInterval(() => {
+          i++;
+          setStep(i);
+          if (i >= STEPS.length) {
+            clearInterval(interval);
+            setGranted(true);
+            setTimeout(() => navigate('/lobby'), 900);
+          }
+        }, 320);
       }
-    }, 320);
+    });
 
-    return () => clearInterval(interval);
+    // Fallback: if no SIGNED_IN after 10s, show error
+    const timeout = setTimeout(() => {
+      subscription.unsubscribe();
+      setAuthError('Authentication timed out. Please try again.');
+    }, 10000);
+
+    return () => {
+      subscription.unsubscribe();
+      clearTimeout(timeout);
+    };
   }, [navigate]);
 
   return (
@@ -42,27 +58,39 @@ export default function AuthCallback() {
           </h1>
         </div>
 
-        <div
-          className="rounded-xl border border-neon-pink/20 bg-game-panel p-5 font-mono text-xs space-y-1.5"
-          style={{ boxShadow: '0 0 20px rgba(224,64,251,0.08)' }}
-        >
-          {STEPS.slice(0, step).map((line, i) => (
-            <div
-              key={i}
-              className={line.includes('VERIFYING') ? 'text-yellow-400' : 'text-slate-500'}
+        {authError ? (
+          <div className="rounded-xl border border-red-500/30 bg-game-panel p-5 font-mono text-xs text-red-400 text-center space-y-3">
+            <div>{authError}</div>
+            <button
+              onClick={() => navigate('/')}
+              className="text-neon-cyan hover:underline"
             >
-              {line}
-            </div>
-          ))}
-          {!granted && step < STEPS.length && (
-            <div className="text-slate-600 animate-pulse">█</div>
-          )}
-          {granted && (
-            <div className="neon-pink font-bold animate-glow">
-              &gt; ACCESS GRANTED ◈
-            </div>
-          )}
-        </div>
+              ← Back to login
+            </button>
+          </div>
+        ) : (
+          <div
+            className="rounded-xl border border-neon-pink/20 bg-game-panel p-5 font-mono text-xs space-y-1.5"
+            style={{ boxShadow: '0 0 20px rgba(224,64,251,0.08)' }}
+          >
+            {STEPS.slice(0, step).map((line, i) => (
+              <div
+                key={i}
+                className={line.includes('VERIFYING') ? 'text-yellow-400' : 'text-slate-500'}
+              >
+                {line}
+              </div>
+            ))}
+            {!granted && step < STEPS.length && (
+              <div className="text-slate-600 animate-pulse">█</div>
+            )}
+            {granted && (
+              <div className="neon-pink font-bold animate-glow">
+                &gt; ACCESS GRANTED ◈
+              </div>
+            )}
+          </div>
+        )}
 
         {granted && (
           <div className="text-center text-[11px] font-mono text-game-muted animate-pulse">
