@@ -19,7 +19,8 @@ function seedNewPlayer(playerId) {
 }
 
 export function initDB() {
-  db = new Database(join(__dirname, '../../promtix.db'));
+  const dbPath = process.env.DB_PATH || join(__dirname, '../../promtix.db');
+  db = new Database(dbPath);
   db.pragma('journal_mode = WAL');
 
   db.exec(`
