@@ -1,18 +1,20 @@
-import Anthropic from '@anthropic-ai/sdk';
+import Groq from 'groq-sdk';
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const client = new Groq({ apiKey: process.env.GROQ_API_KEY });
 
 export async function runChallenge(playerPrompt, challenge) {
-  const response = await client.messages.create({
-    model: 'claude-sonnet-4-6',
+  const response = await client.chat.completions.create({
+    model: 'llama-3.3-70b-versatile',
     max_tokens: 1024,
-    system: challenge.systemPrompt || 'You are a helpful AI assistant.',
-    messages: [{ role: 'user', content: playerPrompt }]
+    messages: [
+      { role: 'system', content: challenge.systemPrompt || 'You are a helpful AI assistant.' },
+      { role: 'user', content: playerPrompt },
+    ],
   });
 
   return {
-    content: response.content[0].text,
-    tokensUsed: response.usage.input_tokens + response.usage.output_tokens
+    content: response.choices[0].message.content,
+    tokensUsed: (response.usage?.prompt_tokens ?? 0) + (response.usage?.completion_tokens ?? 0),
   };
 }
 
@@ -35,15 +37,20 @@ Reply with valid JSON only — no markdown, no explanation outside the JSON:
   "tip": "<one specific, actionable improvement>"
 }`;
 
-  const result = await client.messages.create({
-    model: 'claude-haiku-4-5-20251001',
-    max_tokens: 256,
-    messages: [{ role: 'user', content: judgePrompt }]
+  const result = await client.chat.completions.create({
+    model: 'llama-3.1-8b-instant',
+    max_tokens: 300,
+    messages: [{ role: 'user', content: judgePrompt }],
   });
 
+  const text = result.choices[0].message.content;
   try {
-    return JSON.parse(result.content[0].text);
+    return JSON.parse(text);
   } catch {
+    const match = text.match(/\{[\s\S]*\}/);
+    if (match) {
+      try { return JSON.parse(match[0]); } catch {}
+    }
     return { score: 50, feedback: 'Good attempt!', tip: 'Try being more specific about the desired format.' };
   }
 }

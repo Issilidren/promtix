@@ -584,10 +584,10 @@ export default function Solo() {
       api.getChallenges()
         .then(data => {
           setChallenges(data);
-          localStorage.setItem('promtix_challenges', JSON.stringify(data));
+          sessionStorage.setItem('promtix_challenges', JSON.stringify(data));
         })
         .catch(() => {
-          const cached = localStorage.getItem('promtix_challenges');
+          const cached = sessionStorage.getItem('promtix_challenges');
           if (cached) setChallenges(JSON.parse(cached));
         }),
       api.getWorld().then(setPlayerData).catch(() => {}),

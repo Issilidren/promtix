@@ -14,9 +14,10 @@ export function AuthProvider({ children }) {
       setUser(session?.user ?? null);
       setLoading(false);
       if (session?.access_token) {
-        localStorage.setItem('promtix_token', session.access_token);
+        sessionStorage.setItem('promtix_token', session.access_token);
       } else {
-        localStorage.removeItem('promtix_token');
+        sessionStorage.removeItem('promtix_token');
+        sessionStorage.removeItem('promtix_challenges');
       }
     });
 

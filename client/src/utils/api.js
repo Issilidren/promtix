@@ -1,7 +1,7 @@
 const API_BASE = import.meta.env.VITE_API_URL || '';
 
 function getToken() {
-  return localStorage.getItem('promtix_token');
+  return sessionStorage.getItem('promtix_token');
 }
 
 async function apiFetch(path, options = {}) {
@@ -18,7 +18,7 @@ async function apiFetch(path, options = {}) {
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: 'Request failed' }));
     if (res.status === 401) {
-      localStorage.removeItem('promtix_token');
+      sessionStorage.clear();
       window.location.href = '/';
       return;
     }
