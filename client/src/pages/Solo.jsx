@@ -92,9 +92,15 @@ function ChallengeList({ challenges, onSelect }) {
   const [category, setCategory] = useState('all');
 
   const CODING_CATS = ['python', 'javascript', 'debugging', 'sql', 'algorithms'];
-  const filtered = category === 'all'
-    ? challenges.filter(c => CODING_CATS.includes((c.category || '').toLowerCase()))
-    : challenges.filter(c => (c.category || '').toLowerCase() === category);
+  const filtered = (() => {
+    if (category === 'all')
+      return challenges.filter(c => CODING_CATS.includes((c.category || '').toLowerCase()));
+    if (category === 'python')
+      return challenges.filter(c => c.category === 'python' || c.id?.startsWith('fund-py') || c.id?.startsWith('prac-py'));
+    if (category === 'javascript')
+      return challenges.filter(c => c.category === 'javascript' || c.id?.startsWith('fund-js') || c.id?.startsWith('prac-js'));
+    return challenges.filter(c => (c.category || '').toLowerCase() === category);
+  })();
 
   return (
     <div className="space-y-4">
