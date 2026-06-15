@@ -6,15 +6,16 @@ const DIFF_LABEL = ['', 'Novice', 'Apprentice', 'Adept', 'Master'];
 const DIFF_COLOR = ['', 'text-green-400', 'text-yellow-400', 'text-orange-400', 'text-red-400'];
 
 const CATEGORIES = [
-  { key: 'all',               label: 'ALL',          icon: '⊕' },
-  { key: 'fundamentals',      label: 'FUNDAMENTALS', icon: '◉', always: true },
-  { key: 'practice',          label: 'PRACTICE',     icon: '▶', always: true },
-  { key: 'python',            label: 'PYTHON',       icon: '🐍' },
-  { key: 'javascript',        label: 'JS',           icon: '⚡' },
-  { key: 'debugging',         label: 'DEBUG',        icon: '◈'  },
-  { key: 'sql',               label: 'SQL',          icon: '⊞'  },
-  { key: 'algorithms',        label: 'ALGO',         icon: '∑'  },
-  { key: 'prompt-engineering', label: 'PROMPT',      icon: '✦'  },
+  { key: 'all',                label: 'ALL CODING',   icon: '⊕' },
+  { key: 'fundamentals',       label: 'FUNDAMENTALS', icon: '◉', always: true },
+  { key: 'practice',           label: 'PRACTICE',     icon: '▶', always: true },
+  { key: 'python',             label: 'PYTHON',       icon: '🐍' },
+  { key: 'javascript',         label: 'JS',           icon: '⚡' },
+  { key: 'debugging',          label: 'DEBUG',        icon: '◈'  },
+  { key: 'sql',                label: 'SQL',          icon: '⊞'  },
+  { key: 'algorithms',         label: 'ALGO',         icon: '∑'  },
+  { key: 'divider' },
+  { key: 'prompt-engineering', label: 'PROMPTS',      icon: '✦'  },
 ];
 
 const ENEMY_MAP = {
@@ -56,28 +57,33 @@ function ScoreRing({ score }) {
 
 function CategoryTabs({ active, onChange }) {
   return (
-    <div className="flex gap-1.5 overflow-x-auto pb-1">
-      {CATEGORIES.map(cat => (
-        <button
-          key={cat.key}
-          onClick={() => onChange(cat.key)}
-          className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
-            active === cat.key
-              ? cat.key === 'practice'
-                ? 'bg-amber-500 text-game-bg shadow-[0_0_10px_rgba(245,158,11,0.4)]'
+    <div className="flex gap-1.5 overflow-x-auto pb-1 items-center">
+      {CATEGORIES.map(cat => {
+        if (cat.key === 'divider') {
+          return <div key="divider" className="shrink-0 w-px h-5 bg-game-border mx-1" />;
+        }
+        return (
+          <button
+            key={cat.key}
+            onClick={() => onChange(cat.key)}
+            className={`shrink-0 px-3 py-1.5 rounded-lg text-xs font-mono font-bold transition-all ${
+              active === cat.key
+                ? cat.key === 'practice'
+                  ? 'bg-amber-500 text-game-bg shadow-[0_0_10px_rgba(245,158,11,0.4)]'
+                  : cat.always
+                  ? 'bg-green-500 text-game-bg shadow-[0_0_10px_rgba(34,197,94,0.4)]'
+                  : 'bg-neon-cyan text-game-bg shadow-neon-cyan'
+                : cat.key === 'practice'
+                ? 'bg-amber-950/60 border border-amber-600/50 text-amber-400 hover:border-amber-500 hover:text-amber-300'
                 : cat.always
-                ? 'bg-green-500 text-game-bg shadow-[0_0_10px_rgba(34,197,94,0.4)]'
-                : 'bg-neon-cyan text-game-bg shadow-neon-cyan'
-              : cat.key === 'practice'
-              ? 'bg-amber-950/60 border border-amber-600/50 text-amber-400 hover:border-amber-500 hover:text-amber-300'
-              : cat.always
-              ? 'bg-green-950/60 border border-green-600/50 text-green-400 hover:border-green-500 hover:text-green-300'
-              : 'bg-game-card border border-game-border text-game-muted hover:border-neon-cyan/40 hover:text-neon-cyan'
-          }`}
-        >
-          {cat.icon} {cat.label}
-        </button>
-      ))}
+                ? 'bg-green-950/60 border border-green-600/50 text-green-400 hover:border-green-500 hover:text-green-300'
+                : 'bg-game-card border border-game-border text-game-muted hover:border-neon-cyan/40 hover:text-neon-cyan'
+            }`}
+          >
+            {cat.icon} {cat.label}
+          </button>
+        );
+      })}
     </div>
   );
 }
@@ -85,8 +91,9 @@ function CategoryTabs({ active, onChange }) {
 function ChallengeList({ challenges, onSelect }) {
   const [category, setCategory] = useState('all');
 
+  const CODING_CATS = ['python', 'javascript', 'debugging', 'sql', 'algorithms'];
   const filtered = category === 'all'
-    ? challenges
+    ? challenges.filter(c => CODING_CATS.includes((c.category || '').toLowerCase()))
     : challenges.filter(c => (c.category || '').toLowerCase() === category);
 
   return (
